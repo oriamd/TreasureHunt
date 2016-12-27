@@ -5,7 +5,7 @@
     <string name="level_three_gold_value">300 gold</string>
     <string name="total_gold">0</string>
     <string name="speed_unit">km/h</string>
-    <string name="time_unit">m:s</string>
+
     <string name="speed">00</string>
     <string name="time">00:00</string>
 </resources>
