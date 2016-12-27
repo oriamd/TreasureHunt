@@ -7,6 +7,10 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    final static int LVL_ONE_PRIZE = 100;
+    final static int LVL_ONE_RADIOS = 500;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
