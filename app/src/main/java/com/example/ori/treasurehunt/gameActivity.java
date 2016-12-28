@@ -24,8 +24,8 @@ public class GameActivity extends AppCompatActivity {
 
     private LocationManager manager;
     private LocationListener listener;
-    private Location randLocation;
-
+    private Location randLocation = null;
+    private float lastDistanceToTarget;
 
 
     @Override
@@ -39,31 +39,19 @@ public class GameActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                double x0 = location.getLatitude();
-                double y0 = location.getLongitude();
 
-                // Convert radius from meters to degrees
-                double radiusInDegrees = 500 / 111000f;
+                if( randLocation == null){
+                    setRandLocation(location , 5000);
+                    return;
+                }
 
-                double u = Math.random();
-                double v = Math.random();
-                double w = radiusInDegrees * Math.sqrt(u);
-                double t = 2 * Math.PI * v;
-                double x = w * Math.cos(t);
-                double y = w * Math.sin(t);
+                if(lastDistanceToTarget < location.distanceTo(randLocation)){
+                    Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
+                }else if(lastDistanceToTarget > location.distanceTo(randLocation)){
+                    Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
+                }
 
-                // Adjust the x-coordinate for the shrinking of the east-west distances
-                double new_x = x / Math.cos(y0);
-
-                double foundLongitude = new_x + x0;
-                double foundLatitude = y + y0;
-
-                randLocation = new Location("");
-                randLocation.setLatitude(foundLongitude);
-                randLocation.setLongitude(foundLatitude);
-
-                Log.d(tag,  "Location : " +  location.toString() );
-                Toast.makeText(getBaseContext()," distanceto : " + location.distanceTo(randLocation) , Toast.LENGTH_LONG).show();
+                lastDistanceToTarget = location.distanceTo(randLocation);
 
             }
 
@@ -114,6 +102,43 @@ public class GameActivity extends AppCompatActivity {
         }
 
         manager.requestLocationUpdates("gps", 5000, 0, listener);
+
+    }
+
+    private void setRandLocation(Location location , double radios){
+
+
+        double x0 = location.getLatitude();
+        double y0 = location.getLongitude();
+
+        // Convert radius from meters to degrees
+        double radiusInDegrees = 500 / 111000f;
+
+        double u = Math.random();
+        double v = Math.random();
+        double w = radiusInDegrees * Math.sqrt(u);
+        double t = 2 * Math.PI * v ;
+        double x = w * Math.cos(t);
+        double y = w * Math.sin(t);
+
+        // Adjust the x-coordinate for the shrinking of the east-west distances
+        double new_x = x / Math.cos(y0);
+
+        double foundLongitude = new_x + x0;
+        double foundLatitude = y + y0;
+
+        randLocation = new Location("");
+        //randLocation.setLatitude(foundLongitude);
+        //randLocation.setLongitude(foundLatitude);
+        randLocation.setLatitude(32.161866);
+        randLocation.setLongitude(34.809042);
+
+
+        lastDistanceToTarget = location.distanceTo(randLocation);
+
+        Log.d(tag,  "Location : " +  location.toString() );
+        Toast.makeText(getBaseContext()," distanceto : " + location.distanceTo(randLocation) , Toast.LENGTH_LONG).show();
+
 
     }
 
