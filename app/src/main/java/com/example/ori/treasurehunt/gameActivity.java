@@ -25,7 +25,11 @@ public class GameActivity extends AppCompatActivity {
     private LocationManager manager;
     private LocationListener listener;
     private Location randLocation = null;
-    private float lastDistanceToTarget;
+    private double lastDistanceToTarget;
+
+    //Debug parameters for emulation the user progress
+    private double debugLatitude = 32.161866;
+    private double debugLongitude = 34.809042;
 
 
     @Override
@@ -40,17 +44,19 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
 
+                //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
                     setRandLocation(location , 5000);
                     return;
                 }
-
+                // If not we are going to determine if the user getting close or far awway from the traget
                 if(lastDistanceToTarget < location.distanceTo(randLocation)){
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
                 }else if(lastDistanceToTarget > location.distanceTo(randLocation)){
                     Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
                 }
 
+                //Updating last DistanceToTarget
                 lastDistanceToTarget = location.distanceTo(randLocation);
 
             }
@@ -130,8 +136,8 @@ public class GameActivity extends AppCompatActivity {
         randLocation = new Location("");
         //randLocation.setLatitude(foundLongitude);
         //randLocation.setLongitude(foundLatitude);
-        randLocation.setLatitude(32.161866);
-        randLocation.setLongitude(34.809042);
+        randLocation.setLatitude(debugLatitude);
+        randLocation.setLongitude(debugLongitude);
 
 
         lastDistanceToTarget = location.distanceTo(randLocation);
