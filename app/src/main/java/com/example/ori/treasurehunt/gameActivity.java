@@ -32,6 +32,10 @@ public class GameActivity extends AppCompatActivity {
     private double debugLongitude = 34.809042;
 
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,6 +43,15 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        Button btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext() , WinActivity.class));
+            }
+        });
+
 
         listener = new LocationListener() {
             @Override
