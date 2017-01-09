@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
@@ -32,10 +34,6 @@ public class GameActivity extends AppCompatActivity {
     private double debugLongitude = 34.809042;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,18 +42,13 @@ public class GameActivity extends AppCompatActivity {
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext() , WinActivity.class));
-            }
-        });
-
 
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+
+
+                Log.d(tag,  "Location new : " +location.getLatitude()+","+location.getLongitude() );
 
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
@@ -126,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void setRandLocation(Location location , double radios){
 
+        randLocation = new Location("");
 
         double x0 = location.getLatitude();
         double y0 = location.getLongitude();
@@ -146,16 +140,18 @@ public class GameActivity extends AppCompatActivity {
         double foundLongitude = new_x + x0;
         double foundLatitude = y + y0;
 
-        randLocation = new Location("");
         //randLocation.setLatitude(foundLongitude);
         //randLocation.setLongitude(foundLatitude);
         randLocation.setLatitude(debugLatitude);
         randLocation.setLongitude(debugLongitude);
 
+        TextView view = (TextView) findViewById(R.id.randLocation);
+        view.setText("RandLocation : " + randLocation.getLatitude() +", "+randLocation.getLongitude());
+
 
         lastDistanceToTarget = location.distanceTo(randLocation);
 
-        Log.d(tag,  "Location : " +  location.toString() );
+        Log.d(tag,  "Location : " +location.getLatitude()+","+location.getLongitude() );
         Toast.makeText(getBaseContext()," distanceto : " + location.distanceTo(randLocation) , Toast.LENGTH_LONG).show();
 
 

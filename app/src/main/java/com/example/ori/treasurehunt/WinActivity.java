@@ -77,7 +77,7 @@ public class WinActivity extends AppCompatActivity {
         public GameView(Context context) {
             super(context);
             ourHolder = getHolder();
-            bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.coidsprite);
+    //        bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.coidsprite);
             bitmapRunningMan = Bitmap.createScaledBitmap(bitmapRunningMan, frameWidth * frameCount, frameHeight, false);
         }
 
