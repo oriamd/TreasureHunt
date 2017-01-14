@@ -27,7 +27,10 @@ public class GameActivity extends AppCompatActivity {
     private LocationManager manager;
     private LocationListener listener;
     private Location randLocation = null;
+    private double distanceToTarget;
     private double lastDistanceToTarget;
+    private int soundInterval;
+
 
     //Debug parameters for emulation the user progress
     private double debugLatitude = 32.161866;
@@ -52,14 +55,20 @@ public class GameActivity extends AppCompatActivity {
 
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
-                    setRandLocation(location , 5000);
+                    int radios = getIntent().getIntExtra(MainActivity.GOAL_DISTANCE_IN_M,100);
+                    setRandLocation(location , radios );
+                    //distance from start
+                    distanceToTarget = location.distanceTo(randLocation);
+                    soundInterval = (int)distanceToTarget/10;
                     return;
                 }
-                // If not we are going to determine if the user getting close or far awway from the traget
-                if(lastDistanceToTarget < location.distanceTo(randLocation)){
+                // If not we are going to determine if the user getting close or far away from the target
+                if(lastDistanceToTarget < location.distanceTo(randLocation)){//Getting far
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
-                }else if(lastDistanceToTarget > location.distanceTo(randLocation)){
+
+                }else if(lastDistanceToTarget > location.distanceTo(randLocation)){//Getting close
                     Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
+
                 }
 
                 //Updating last DistanceToTarget
