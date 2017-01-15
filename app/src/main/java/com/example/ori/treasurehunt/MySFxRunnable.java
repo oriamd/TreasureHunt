@@ -54,7 +54,8 @@ public class MySFxRunnable implements Runnable {
          * I use the "R.raw.xyz" integer as key, because it's useless to invent new keys for
          * them
          */
-        soundsMap.put(R.raw.detectbip, soundPool.load(appContext, R.raw.detectbip, 1));
+
+        soundsMap.put(R.raw.detectbeep, soundPool.load(appContext, R.raw.detectbeep, 1));
         soundsMap.put(R.raw.detectoron, soundPool.load(appContext, R.raw.detectoron, 1));
 
 

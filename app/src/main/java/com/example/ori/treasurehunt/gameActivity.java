@@ -73,7 +73,7 @@ public class GameActivity extends AppCompatActivity {
             soundEffectsUtil = new MySFxRunnable(this);
         }
         if (intervalSound == null){
-            intervalSound = new IntervalMusicRunnable(this,R.raw.detectbip,soundEffectsUtil);
+            intervalSound = new IntervalMusicRunnable(this,R.raw.detectbeep,soundEffectsUtil);
         }
 
         //Location
@@ -84,12 +84,15 @@ public class GameActivity extends AppCompatActivity {
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
                     int radios = getIntent().getIntExtra(MainActivity.GOAL_DISTANCE_IN_M,100);
+                    //For debug
+                    location.setLatitude(32.164798);
+                    location.setLongitude(34.835519);
                     setRandLocation(location , radios );
                     //distance from start
                     distanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;  //The real distance is les because we have radios
                     intervalSound.setPlay();
                     intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
-                    new Thread(intervalSound).start();
+                    AsyncHandler.post(intervalSound);
                     chromoneter.setBase(SystemClock.elapsedRealtime());
                     chromoneter.start();
                     return;
@@ -107,7 +110,6 @@ public class GameActivity extends AppCompatActivity {
                     if(lastDistanceToTarget <= DISTANCE_TO_START_INTERVAL_METER){
                         //first will start sound
                         intervalSound.setPlay();
-
                         frequency = (((int)(distanceToRandLocation/INTERVAL_METER))+1)*INTERVAL_MS;
                         intervalSound.setFrequency(frequency);
                     }
@@ -149,7 +151,6 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         soundEffectsUtil.play(R.raw.detectoron);
         AsyncHandler.post(mediaPlayer);
-        chromoneter.stop();
     }
 
     @Override
@@ -157,7 +158,6 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         soundEffectsUtil.play(R.raw.detectoron);
         AsyncHandler.post(mediaPlayer);
-        chromoneter.start();
     }
 
     @Override

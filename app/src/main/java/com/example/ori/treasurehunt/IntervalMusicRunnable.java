@@ -1,8 +1,11 @@
 package com.example.ori.treasurehunt;
 
 import android.content.Context;
+import android.media.AsyncPlayer;
 import android.media.MediaPlayer;
 import android.util.Log;
+
+import com.mta.sharedutils.AsyncHandler;
 
 import java.io.IOException;
 
@@ -11,7 +14,7 @@ import java.io.IOException;
  */
 
 
-public class IntervalMusicRunnable implements Runnable{
+public class IntervalMusicRunnable implements Runnable {
 
     static final String tag = "MyMusicRunnable";
 
@@ -26,13 +29,13 @@ public class IntervalMusicRunnable implements Runnable{
 
     long frequency = 1000; //Default is 1 second
     boolean action;
+    private static boolean sStillPlaying;
 
     /**
-     *
      * @param c
      * @param resId the music res
      */
-    public IntervalMusicRunnable(Context c, int resId, MySFxRunnable soundEffectsUtil ) {
+    public IntervalMusicRunnable(Context c, int resId, MySFxRunnable soundEffectsUtil) {
         // be careful not to leak the activity context.
         // can keep the app context instead.
         appContext = c.getApplicationContext();
@@ -45,14 +48,16 @@ public class IntervalMusicRunnable implements Runnable{
     /**
      * Will change the Resource of the Sound while playing for for nest start
      * Source must be in MySFxRunnable
+     *
      * @param resId
      */
-    public void changeRes(int resId){
+    public void changeRes(int resId) {
         this.resId = resId;
     }
 
     /**
      * Setting the frequency which the sound is playing
+     *
      * @param frequency in milliseconds
      */
     public void setFrequency(long frequency) {
@@ -60,11 +65,12 @@ public class IntervalMusicRunnable implements Runnable{
     }
 
 
-    public void setPlay(){
-        action = PLAY;
+    public void setPlay() {
+        sStillPlaying = PLAY;
     }
-    public void setPause(){
-        action = PAUSE;
+
+    public void setPause() {
+        sStillPlaying = PAUSE;
     }
 
     /**
@@ -73,17 +79,10 @@ public class IntervalMusicRunnable implements Runnable{
      */
     @Override
     public void run() {
-        action = PLAY;
-        try{
-
-        while (action == PLAY){
-            Log.i(tag,"Playing");
-            soundEffectsUtil.play(resId);
-            Thread.sleep(frequency);
-        }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (sStillPlaying) {
+            AsyncHandler.postDelayed(this, frequency, true);
+        Log.i(tag, "Playing");
+        soundEffectsUtil.play(resId);
         }
     }
 
