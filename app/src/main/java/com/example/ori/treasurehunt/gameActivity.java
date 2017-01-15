@@ -14,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
 
     public static final String tag = "GAME_ACTIVITY_LOG";
 
+    public static final float WIN_RADIOS = 10;
 
     private LocationManager manager;
     private LocationListener listener;
@@ -33,8 +32,8 @@ public class GameActivity extends AppCompatActivity {
 
 
     //Debug parameters for emulation the user progress
-    private double debugLatitude = 32.161866;
-    private double debugLongitude = 34.809042;
+    private double DEBUGLATITUDE = 32.165716;
+    private double DEBUGLONGITUDE = 34.799725;
 
 
     @Override
@@ -50,9 +49,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
 
-
-                Log.d(tag,  "Location new : " +location.getLatitude()+","+location.getLongitude() );
-
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
                     int radios = getIntent().getIntExtra(MainActivity.GOAL_DISTANCE_IN_M,100);
@@ -62,13 +58,18 @@ public class GameActivity extends AppCompatActivity {
                     soundInterval = (int)distanceToTarget/10;
                     return;
                 }
+
+                float distanceToRandLocation = location.distanceTo(randLocation);
                 // If not we are going to determine if the user getting close or far away from the target
-                if(lastDistanceToTarget < location.distanceTo(randLocation)){//Getting far
+                if(lastDistanceToTarget < distanceToRandLocation){//Getting far
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
 
-                }else if(lastDistanceToTarget > location.distanceTo(randLocation)){//Getting close
+                }else if(lastDistanceToTarget > distanceToRandLocation){//Getting close
                     Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
 
+                }else if(distanceToRandLocation <= WIN_RADIOS){//The player reached the target
+                    Intent intent = new Intent(getBaseContext(), WinActivity.class);
+                    startActivity(intent);
                 }
 
                 //Updating last DistanceToTarget
@@ -151,8 +152,8 @@ public class GameActivity extends AppCompatActivity {
 
         //randLocation.setLatitude(foundLongitude);
         //randLocation.setLongitude(foundLatitude);
-        randLocation.setLatitude(debugLatitude);
-        randLocation.setLongitude(debugLongitude);
+        randLocation.setLatitude(DEBUGLATITUDE);
+        randLocation.setLongitude(DEBUGLONGITUDE);
 
         TextView view = (TextView) findViewById(R.id.randLocation);
         view.setText("RandLocation : " + randLocation.getLatitude() +", "+randLocation.getLongitude());
@@ -166,4 +167,9 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+
+    public void win(View view) {
+        Intent intent = new Intent(this, WinActivity.class);
+        startActivity(intent);
+    }
 }

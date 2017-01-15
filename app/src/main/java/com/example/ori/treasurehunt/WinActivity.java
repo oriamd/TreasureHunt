@@ -1,6 +1,7 @@
 package com.example.ori.treasurehunt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.ImageView;
 
 public class WinActivity extends AppCompatActivity {
@@ -51,6 +53,12 @@ public class WinActivity extends AppCompatActivity {
         gameView.pause();
     }
 
+    public void playAgain(View view) {
+        Intent intent = new Intent(getBaseContext(),MainActivity.class);
+        startActivity(intent);
+
+    }
+
     class GameView extends SurfaceView implements Runnable {
 
 
@@ -61,8 +69,8 @@ public class WinActivity extends AppCompatActivity {
         private Bitmap bitmapRunningMan;
         private boolean isMoving;
         private float runSpeedPerSecond = 500;
-        private float manXPos = 10, manYPos = 10;
-        private int frameWidth = 40, frameHeight = 40;
+        private float manXPos = 91, manYPos = 98;
+        private int frameWidth = 91, frameHeight = 98;
         private int frameCount = 10;
         private int currentFrame = 0;
         private long fps;
@@ -77,8 +85,8 @@ public class WinActivity extends AppCompatActivity {
         public GameView(Context context) {
             super(context);
             ourHolder = getHolder();
-    //        bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.coidsprite);
-            bitmapRunningMan = Bitmap.createScaledBitmap(bitmapRunningMan, frameWidth * frameCount, frameHeight, false);
+            bitmapRunningMan = BitmapFactory.decodeResource(getResources(), R.drawable.spritecoidverti);
+    //        bitmapRunningMan = Bitmap.createScaledBitmap(bitmapRunningMan, frameWidth * frameCount, frameHeight, false);
         }
 
         @Override
@@ -98,15 +106,15 @@ public class WinActivity extends AppCompatActivity {
 
         public void update() {
             if (isMoving) {
-                manXPos = manXPos + runSpeedPerSecond / fps;
+                manYPos = manYPos + runSpeedPerSecond / fps;
 
-                if (manXPos > getWidth()) {
-                    manYPos += (int) frameHeight;
-                    manXPos = 10;
+                if (manYPos  > getHeight()) {
+                    manXPos += (int) frameWidth;
+                    manYPos  = 10;
                 }
 
-                if (manYPos + frameHeight > getHeight()) {
-                    manYPos = 10;
+                if (manXPos + frameWidth> getWidth()) {
+                    manXPos = 10;
                 }
             }
         }
@@ -125,8 +133,8 @@ public class WinActivity extends AppCompatActivity {
                 }
             }
 
-            frameToDraw.left = currentFrame * frameWidth;
-            frameToDraw.right = frameToDraw.left + frameWidth;
+            frameToDraw.top = currentFrame * frameHeight;
+            frameToDraw.bottom = frameToDraw.top + frameHeight;
         }
 
         public void draw() {
