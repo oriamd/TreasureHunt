@@ -21,17 +21,18 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mta.sharedutils.AsyncHandler;
+
 public class WinActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        AsyncHandler.removeAllCallbacks();
         setContentView(R.layout.activity_win);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         getWindow().setLayout((int) (width * .8), (int) (height * .8));

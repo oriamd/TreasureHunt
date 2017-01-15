@@ -104,17 +104,17 @@ public class GameActivity extends AppCompatActivity {
 
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
 
-                }else if(lastDistanceToTarget > distanceToRandLocation){//Getting close
-                    Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
+                }else if(lastDistanceToTarget > distanceToRandLocation) {//Getting close
+                    Toast.makeText(getBaseContext(), "Getting Close", Toast.LENGTH_SHORT).show();
                     //will change the interval only in DISTANCE_TO_START_INTERVAL_METER radios
-                    if(lastDistanceToTarget <= DISTANCE_TO_START_INTERVAL_METER){
+                    if (lastDistanceToTarget <= DISTANCE_TO_START_INTERVAL_METER) {
                         //first will start sound
                         intervalSound.setPlay();
-                        frequency = (((int)(distanceToRandLocation/INTERVAL_METER))+1)*INTERVAL_MS;
+                        frequency = (((int) (distanceToRandLocation / INTERVAL_METER)) + 1) * INTERVAL_MS;
                         intervalSound.setFrequency(frequency);
                     }
-
-                }else if(distanceToRandLocation <= 0 ){//The player reached the target
+                }
+                if(distanceToRandLocation <= 0 ){//The player reached the target
                     Intent intent = new Intent(getBaseContext(), WinActivity.class);
                     startActivity(intent);
                 }
