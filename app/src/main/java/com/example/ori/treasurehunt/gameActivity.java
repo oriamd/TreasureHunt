@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -14,27 +15,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mta.sharedutils.AsyncHandler;
 
 public class GameActivity extends AppCompatActivity {
 
     public static final String tag = "GAME_ACTIVITY_LOG";
 
-    public static final float WIN_RADIOS = 10;
+
+
+
+    private static MyMusicRunnable mediaPlayer;
+    private static MySFxRunnable soundEffectsUtil;
+    private static IntervalMusicRunnable intervalSound;
+
+
 
     private LocationManager manager;
     private LocationListener listener;
-    private Location randLocation = null;
-    private double distanceToTarget;
-    private double lastDistanceToTarget;
-    private int soundInterval;
+    private Location randLocation = null;   //The "Treasure" location
+    private double distanceToTarget;        //distance from first taken location to randLocation
+    private double lastDistanceToTarget;    //the last Distance taken to the randLocation
+    private int frequency;
+    public static final int TARGET_OFFSET_METER = 10;                   //The radios to the target
+    public static final int DISTANCE_TO_START_INTERVAL_METER = 100;    //When in X distance will start changing the interval
+    public static final int SOUND_FREQUENCY_INITIAL_MS = 2000;       //The frequency which the sound start with
+    public static final int INTERVAL_METER = 10;                    // The frequency  will change every  INTERVAL_METER's
+    public static final int INTERVAL_MS =  SOUND_FREQUENCY_INITIAL_MS /INTERVAL_METER; //The frequency  will change by INTERVAL_MS
 
 
     //Debug parameters for emulation the user progress
-    private double DEBUGLATITUDE = 32.165716;
-    private double DEBUGLONGITUDE = 34.799725;
+    private double DEBUGLATITUDE = 32.165391;
+    private double DEBUGLONGITUDE = 34.834500;
 
+
+    TextView speedTextView;
+    Chronometer chromoneter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +61,22 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        chromoneter = (Chronometer)findViewById(R.id.chronometer2);
+
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        //Sounds
+        if(mediaPlayer == null){
+            mediaPlayer = new MyMusicRunnable(this,R.raw.detectorbackground);
+        }
+        if (soundEffectsUtil == null) {
+            soundEffectsUtil = new MySFxRunnable(this);
+        }
+        if (intervalSound == null){
+            intervalSound = new IntervalMusicRunnable(this,R.raw.detectbip,soundEffectsUtil);
+        }
 
+        //Location
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -54,26 +86,39 @@ public class GameActivity extends AppCompatActivity {
                     int radios = getIntent().getIntExtra(MainActivity.GOAL_DISTANCE_IN_M,100);
                     setRandLocation(location , radios );
                     //distance from start
-                    distanceToTarget = location.distanceTo(randLocation);
-                    soundInterval = (int)distanceToTarget/10;
+                    distanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;  //The real distance is les because we have radios
+                    intervalSound.setPlay();
+                    intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
+                    new Thread(intervalSound).start();
+                    chromoneter.setBase(SystemClock.elapsedRealtime());
+                    chromoneter.start();
                     return;
                 }
 
-                float distanceToRandLocation = location.distanceTo(randLocation);
+                float distanceToRandLocation = location.distanceTo(randLocation)-TARGET_OFFSET_METER;
                 // If not we are going to determine if the user getting close or far away from the target
                 if(lastDistanceToTarget < distanceToRandLocation){//Getting far
+
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
 
                 }else if(lastDistanceToTarget > distanceToRandLocation){//Getting close
                     Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
+                    //will change the interval only in DISTANCE_TO_START_INTERVAL_METER radios
+                    if(lastDistanceToTarget <= DISTANCE_TO_START_INTERVAL_METER){
+                        //first will start sound
+                        intervalSound.setPlay();
 
-                }else if(distanceToRandLocation <= WIN_RADIOS){//The player reached the target
+                        frequency = (((int)(distanceToRandLocation/INTERVAL_METER))+1)*INTERVAL_MS;
+                        intervalSound.setFrequency(frequency);
+                    }
+
+                }else if(distanceToRandLocation <= 0 ){//The player reached the target
                     Intent intent = new Intent(getBaseContext(), WinActivity.class);
                     startActivity(intent);
                 }
 
                 //Updating last DistanceToTarget
-                lastDistanceToTarget = location.distanceTo(randLocation);
+                lastDistanceToTarget = distanceToRandLocation;
 
             }
 
@@ -97,6 +142,22 @@ public class GameActivity extends AppCompatActivity {
 
         startLocation();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundEffectsUtil.play(R.raw.detectoron);
+        AsyncHandler.post(mediaPlayer);
+        chromoneter.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundEffectsUtil.play(R.raw.detectoron);
+        AsyncHandler.post(mediaPlayer);
+        chromoneter.start();
     }
 
     @Override
@@ -172,4 +233,5 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WinActivity.class);
         startActivity(intent);
     }
+
 }
