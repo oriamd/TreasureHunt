@@ -21,15 +21,15 @@ public class IntervalMusicRunnable implements Runnable {
     static public final boolean PLAY = true;
     static public final boolean PAUSE = false;
 
-    private static MySFxRunnable soundEffectsUtil;
+    private MySFxRunnable soundEffectsUtil;
 
-    Context appContext;
+    private Context appContext;
 
-    int resId;
+    private int resId;
 
-    long frequency = 1000; //Default is 1 second
+    private long frequency = 1000; //Default is 1 second
     boolean action;
-    private static boolean sStillPlaying;
+    private boolean sStillPlaying;
 
     /**
      * @param c
@@ -81,8 +81,8 @@ public class IntervalMusicRunnable implements Runnable {
     public void run() {
         if (sStillPlaying) {
             AsyncHandler.postDelayed(this, frequency, true);
-        Log.i(tag, "Playing");
-        soundEffectsUtil.play(resId);
+            Log.i(tag, "Playing : frequency = "+frequency);
+            soundEffectsUtil.play(resId);
         }
     }
 

@@ -13,6 +13,7 @@
         app:srcCompat="@drawable/sgold"
         android:id="@+id/imageButton"
         android:background="@drawable/roundcorner"
+
         app:layout_constraintRight_toLeftOf="@+id/imageButton2"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -35,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="16dp"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.39" />
 
     <ImageButton
         android:layout_width="96dp"
@@ -87,12 +88,42 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:text="@string/total_gold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintLeft_toRightOf="@+id/imageView2" />
+        app:layout_constraintLeft_toRightOf="@+id/imageView2"
+        android:text="gold" />
+
+    <ImageView
+        android:layout_width="333dp"
+        android:layout_height="78dp"
+        app:srcCompat="@drawable/selectlevel"
+        android:id="@+id/imageView3"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton2"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/roundgreen"
+        android:padding="1dp"
+        app:layout_constraintHorizontal_bias="0.47" />
+
+    <ImageView
+        android:layout_width="195dp"
+        android:layout_height="168dp"
+        app:srcCompat="@drawable/leprechaun"
+        android:id="@+id/imageView9"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

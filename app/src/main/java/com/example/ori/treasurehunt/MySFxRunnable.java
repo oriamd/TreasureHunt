@@ -57,6 +57,7 @@ public class MySFxRunnable implements Runnable {
 
         soundsMap.put(R.raw.detectbeep, soundPool.load(appContext, R.raw.detectbeep, 1));
         soundsMap.put(R.raw.detectoron, soundPool.load(appContext, R.raw.detectoron, 1));
+        soundsMap.put(R.raw.errorbuzz, soundPool.load(appContext, R.raw.errorbuzz, 1));
 
 
     }
