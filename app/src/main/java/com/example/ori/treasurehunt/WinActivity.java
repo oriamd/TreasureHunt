@@ -1,32 +1,14 @@
 package com.example.ori.treasurehunt;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mta.sharedutils.AsyncHandler;
 
@@ -58,7 +40,7 @@ public class WinActivity extends AppCompatActivity {
         }
 
         //Setting the gold text
-        TextView text = (TextView)findViewById(R.id.textView);
+        TextView text = (TextView)findViewById(R.id.settings);
         wonGold = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
         text.setText(wonGold);
         new Thread(new Runnable() {

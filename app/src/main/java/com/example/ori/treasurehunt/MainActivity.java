@@ -23,20 +23,22 @@ public class MainActivity extends AppCompatActivity {
     final static String goldTrackTag = "TotalGoldTracker";
 
     //should sound play when onClick
-    static boolean CLICK_SOUND_ENABLE = true;
+    public static boolean CLICK_SOUND_ENABLE = true;
 
     final static int LVL_ONE_PRIZE = 100;
     final static int LVL_ONE_RADIOS = 500;
     public final static String GOAL_DISTANCE_IN_M = "distance_to_taget_code";
     public final static String PRIZE_AMOUNT = "prize_amount_code";
     public final static String TOTAL_GOLD_KEY ="total_player_gold_sp_key";
+    public final static String VOLUME_KEY="volume_low_high";
+    public final static String SOUND_KEY="sound_on_off";
     public static TextView goldTextView;
     public static String totalGold;
 
     public static final int FIRST_STAGE_PRIZE = 100;
 
-    private static MyMusicRunnable musicPlayer;
-    private static MySFxRunnable soundEffectsUtil;
+    public static MyMusicRunnable musicPlayer;
+    public static MySFxRunnable soundEffectsUtil;
 
     @Override
     protected void onResume() {
@@ -104,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
+    public void startSettings(View view) {
+        Intent intent = new Intent(getBaseContext() , SettingsActivity.class);
+        startActivity(intent);
+    }
 }

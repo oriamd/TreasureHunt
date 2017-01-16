@@ -12,6 +12,7 @@ import java.io.IOException;
 public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListener {
 
     static final String tag = "MyMusicRunnable";
+    static float volume = 1;
 
     Context appContext;
     MediaPlayer mPlayer;
@@ -30,6 +31,13 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
 
 
         this.resId = resId;
+    }
+
+    void changeVolume(float volume){
+        MyMusicRunnable.volume = volume;
+
+        mPlayer.setVolume(volume,volume);
+
     }
 
     public boolean isMusicIsPlaying() {
@@ -63,6 +71,7 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
             if (mPlayer == null) {
                 mPlayer = MediaPlayer.create(appContext, resId);
                 mPlayer.setLooping(true);
+                mPlayer.setVolume(volume,volume);
                 mPlayer.start();
                 mPlayer.setOnCompletionListener(this); // MediaPlayer.OnCompletionListener
             } else {
@@ -70,6 +79,7 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
                     mPlayer.prepare();
                     mPlayer.setLooping(true);
                     mPlayer.start();
+                    mPlayer.setVolume(volume,volume);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

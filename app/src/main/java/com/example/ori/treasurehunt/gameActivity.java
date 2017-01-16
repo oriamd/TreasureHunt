@@ -7,7 +7,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,45 +14,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Chronometer;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
-
-import com.mta.sharedutils.AsyncHandler;
 
 public class GameActivity extends AppCompatActivity {
 
     public static final String tag = "GAME_ACTIVITY_LOG";
 
-    private String prizeAmount;
-
-    private static MyMusicRunnable mediaPlayer;
-    private static MySFxRunnable soundEffectsUtil;
-    private static IntervalMusicRunnable intervalSound;
-
-
 
     private LocationManager manager;
     private LocationListener listener;
-    private Location randLocation = null;   //The "Treasure" location
-    private double distanceToTarget;        //distance from first taken location to randLocation
-    private double lastDistanceToTarget;    //the last Distance taken to the randLocation
-    private int frequency;
-    public static final int TARGET_OFFSET_METER = 10;                   //The radios to the target
-    public static final int DISTANCE_TO_START_INTERVAL_METER = 100;    //When in X distance will start changing the interval
-    public static final int SOUND_FREQUENCY_INITIAL_MS = 2000;       //The frequency which the sound start with
-    public static final int INTERVAL_METER = 10;                    // The frequency  will change every  INTERVAL_METER's
-    public static final int INTERVAL_MS =  SOUND_FREQUENCY_INITIAL_MS /INTERVAL_METER; //The frequency  will change by INTERVAL_MS
-
+    private Location randLocation = null;
+    private double lastDistanceToTarget;
 
     //Debug parameters for emulation the user progress
-    private double DEBUG_LATITUDETE_TARGET = 32.165391;
-    private double DEBUG_LONGITUDE_TARGET = 34.834500;
-    private double DEBUG_LATITUDETE_START = 32.164798;
-    private double DEBUG_LONGITUDE_START = 34.835519;
+    private double debugLatitude = 32.161866;
+    private double debugLongitude = 34.809042;
 
-    TextView speedTextView;
-    Chronometer chromoneter;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,84 +42,35 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //storing extras
-        prizeAmount = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
-
-        //storing the chronometer
-        chromoneter = (Chronometer)findViewById(R.id.chronometer2);
-
-
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        //Sounds
-        if(mediaPlayer == null){
-            mediaPlayer = new MyMusicRunnable(this,R.raw.detectorbackground);
-        }
-        if (soundEffectsUtil == null) {
-            soundEffectsUtil = new MySFxRunnable(this);
-        }
-        if (intervalSound == null){
-            intervalSound = new IntervalMusicRunnable(this,R.raw.detectbeep,soundEffectsUtil);
-        }
+        Button btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext() , WinActivity.class));
+            }
+        });
 
-        //Location
+
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
 
-
-
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
-                    int radios = getIntent().getIntExtra(MainActivity.GOAL_DISTANCE_IN_M,100);
-                    //For debug
-                    location.setLatitude(DEBUG_LATITUDETE_START);
-                    location.setLongitude(DEBUG_LONGITUDE_START);
-                    setRandLocation(location , radios );
-
-
-
-
-                    //distance from start
-                    distanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;  //The real distance is les because we have radios
-                    Log.i(tag,  "first distanceto Target : " + distanceToTarget );
-
-                    intervalSound.setPlay();
-                    intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
-                    AsyncHandler.post(intervalSound);
-                    chromoneter.setBase(SystemClock.elapsedRealtime());
-                    chromoneter.start();
-
-                    lastDistanceToTarget = distanceToTarget;
+                    setRandLocation(location , 5000);
                     return;
                 }
-
-
-
-                distanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;
-                Log.i(tag,  "distanceto Target : " + location.distanceTo(randLocation) );
-
-                // If not we are going to determine if the user getting close or far away from the target
-                if(lastDistanceToTarget < distanceToTarget){//Getting far
-
+                // If not we are going to determine if the user getting close or far awway from the traget
+                if(lastDistanceToTarget < location.distanceTo(randLocation)){
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
-                    intervalSound.changeRes(R.raw.errorbuzz);
-                    intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
-                    intervalSound.setPlay();
-
-                }else if(lastDistanceToTarget > distanceToTarget) {//Getting close
-
-                    Toast.makeText(getBaseContext(), "Getting Close", Toast.LENGTH_SHORT).show();
-                    intervalSound.changeRes(R.raw.detectbeep);
-                    intervalSound.setPlay();
-                    changeInterval(distanceToTarget);
-                }
-                if(distanceToTarget <= 0 ){//The player reached the target
-                    win(null);
+                }else if(lastDistanceToTarget > location.distanceTo(randLocation)){
+                    Toast.makeText(getBaseContext(),"Getting Close", Toast.LENGTH_SHORT).show();
                 }
 
                 //Updating last DistanceToTarget
-                lastDistanceToTarget = distanceToTarget;
+                lastDistanceToTarget = location.distanceTo(randLocation);
 
             }
 
@@ -162,18 +94,6 @@ public class GameActivity extends AppCompatActivity {
 
         startLocation();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AsyncHandler.post(mediaPlayer);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AsyncHandler.post(mediaPlayer);
     }
 
     @Override
@@ -206,7 +126,6 @@ public class GameActivity extends AppCompatActivity {
 
     private void setRandLocation(Location location , double radios){
 
-        randLocation = new Location("");
 
         double x0 = location.getLatitude();
         double y0 = location.getLongitude();
@@ -227,31 +146,19 @@ public class GameActivity extends AppCompatActivity {
         double foundLongitude = new_x + x0;
         double foundLatitude = y + y0;
 
+        randLocation = new Location("");
         //randLocation.setLatitude(foundLongitude);
         //randLocation.setLongitude(foundLatitude);
-        randLocation.setLatitude(DEBUG_LATITUDETE_TARGET);
-        randLocation.setLongitude(DEBUG_LONGITUDE_TARGET);
-
-        TextView view = (TextView) findViewById(R.id.randLocation);
-        view.setText("RandLocation : " + randLocation.getLatitude() +", "+randLocation.getLongitude());
-
-    }
+        randLocation.setLatitude(debugLatitude);
+        randLocation.setLongitude(debugLongitude);
 
 
-    public void win(View view) {
-        Intent intent = new Intent(getBaseContext(), WinActivity.class);
-        intent.putExtra(MainActivity.PRIZE_AMOUNT,prizeAmount.toString());
-        startActivity(intent);
-      //  finish();
-    }
+        lastDistanceToTarget = location.distanceTo(randLocation);
 
-    private void changeInterval(double distance ){
-        frequency = (((int) (distance / INTERVAL_METER)) + 1) * INTERVAL_MS;
-        if(frequency > SOUND_FREQUENCY_INITIAL_MS ) {
-            intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
-        }else {
-            intervalSound.setFrequency(frequency);
-        }
+        Log.d(tag,  "Location : " +  location.toString() );
+        Toast.makeText(getBaseContext()," distanceto : " + location.distanceTo(randLocation) , Toast.LENGTH_LONG).show();
+
 
     }
+
 }
