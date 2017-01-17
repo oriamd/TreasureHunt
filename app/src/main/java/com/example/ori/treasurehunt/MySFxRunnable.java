@@ -68,4 +68,10 @@ public class MySFxRunnable implements Runnable {
         }
         soundPool.play(soundsMap.get(soundKey), 1.0f, 1.0f, 1, 0, 1.0f);
     }
+
+    public void playClickSound(){
+        if(SettingsDialog.CLICK_SOUND_ENABLE) {
+            play(R.raw.detectoron);
+        }
+    }
 }

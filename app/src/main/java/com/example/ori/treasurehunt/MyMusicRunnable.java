@@ -1,7 +1,12 @@
 package com.example.ori.treasurehunt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.mta.sharedutils.AsyncHandler;
 
 import java.io.IOException;
 
@@ -12,7 +17,7 @@ import java.io.IOException;
 public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListener {
 
     static final String tag = "MyMusicRunnable";
-    static float volume = 1;
+    static int volume = 100;
 
     Context appContext;
     MediaPlayer mPlayer;
@@ -29,15 +34,34 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
         // can keep the app context instead.
         appContext = c.getApplicationContext();
 
+        AsyncHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(appContext);
+                int newVolume = sp.getInt(SettingsDialog.VOLUME_SETTINGS_KEY, 100);
+                MyMusicRunnable.volume = newVolume;
+                Log.i(tag,"SharedPref new volume is :" + newVolume);
+                boolean newClickSound = sp.getBoolean(SettingsDialog.CLICK_SOUND_SETTINGS_KEY, true);
+                SettingsDialog.CLICK_SOUND_ENABLE = newClickSound;
+                Log.i(tag,"SharedPref new clickSound is :" + newClickSound);
+            }
+        });
 
         this.resId = resId;
     }
 
-    void changeVolume(float volume){
+    public void changeVolume(int volume){
         MyMusicRunnable.volume = volume;
+        float volumeToSet = (float) (1 - (Math.log(100 - volume) / Math.log(100)));
+        mPlayer.setVolume(volumeToSet,volumeToSet);
 
-        mPlayer.setVolume(volume,volume);
+        Log.i(tag,"changeVolume() to : " + volumeToSet );
+    }
 
+    void changeVolume(){
+        float volumeToSet = (float) (1 - (Math.log(100 - MyMusicRunnable.volume) / Math.log(100)));
+        mPlayer.setVolume(volumeToSet,volumeToSet);
+        Log.i(tag,"changeVolume() to : " + volumeToSet );
     }
 
     public boolean isMusicIsPlaying() {
@@ -71,7 +95,8 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
             if (mPlayer == null) {
                 mPlayer = MediaPlayer.create(appContext, resId);
                 mPlayer.setLooping(true);
-                mPlayer.setVolume(volume,volume);
+                Log.i(tag,"volume is : " + MyMusicRunnable.volume );
+                changeVolume();
                 mPlayer.start();
                 mPlayer.setOnCompletionListener(this); // MediaPlayer.OnCompletionListener
             } else {
@@ -79,7 +104,6 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
                     mPlayer.prepare();
                     mPlayer.setLooping(true);
                     mPlayer.start();
-                    mPlayer.setVolume(volume,volume);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

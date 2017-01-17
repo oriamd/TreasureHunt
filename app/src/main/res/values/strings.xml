@@ -5,7 +5,13 @@
     <string name="level_three_gold_value">300 gold</string>
     <string name="total_gold">0</string>
     <string name="speed_unit">km/h</string>
-
     <string name="speed">00</string>
     <string name="time">00:00</string>
+    <string name="version">Version : 0.5</string>
+    <string name="developers">Developers : Ori Amuday , Dana Igra</string>
+    <string name="dvelopein">Developed in the Introduction to Mobile Computing Course, 2017. Instructors: Dr. Amnon Dekel and Amir Uval.</string>
+    <string name="rights">© 2017 - The Dept. of Software Engineering, Shenkar: Engineering. Design. Art.
+</string>
+    <string name="gamedes">Target : Find The gold with the help of the gold detector \n
+                            Listen to the Sounds telling you how close you are.</string>
 </resources>
