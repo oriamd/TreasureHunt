@@ -91,6 +91,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         disview = (TextView) findViewById(R.id.randLocation);
+        speedTextView = (TextView) findViewById(R.id.speed);
         //Location
         listener = new LocationListener() {
             @Override
@@ -129,12 +130,14 @@ public class GameActivity extends AppCompatActivity {
                 }
                 Log.i(locationTag,  "offsetDistanceToTarget: " + offsetDistanceToTarget );
 
-                disview.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        disview.setText("Distance : " + offsetDistanceToTarget);
-                    }
-                });
+                if(disview != null) {
+                    disview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            disview.setText("Distance : " + offsetDistanceToTarget);
+                        }
+                    });
+                }
 
                 // If not we are going to determine if the user getting close or far away from the target
                 if(lastDistanceToTarget < offsetDistanceToTarget){//Getting far
