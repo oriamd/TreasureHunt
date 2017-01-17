@@ -27,7 +27,6 @@
         <activity
             android:name=".WinActivity"
             android:theme="@style/AppTheme.noActionBar.popUp" />
-        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

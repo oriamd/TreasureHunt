@@ -32,13 +32,32 @@ public class MainActivity extends AppCompatActivity {
     public final static String TOTAL_GOLD_KEY ="total_player_gold_sp_key";
     public final static String VOLUME_KEY="volume_low_high";
     public final static String SOUND_KEY="sound_on_off";
-    public static TextView goldTextView;
+    private TextView goldTextView;
     public static String totalGold;
 
     public static final int FIRST_STAGE_PRIZE = 100;
 
     public static MyMusicRunnable musicPlayer;
     public static MySFxRunnable soundEffectsUtil;
+
+    SettingsDialog settingsDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if(musicPlayer == null) {
+            musicPlayer = new MyMusicRunnable(this, R.raw.irishmusic);
+        }
+
+        if (soundEffectsUtil == null) {
+            soundEffectsUtil = new MySFxRunnable(this);
+        }
+
+        settingsDialog = new SettingsDialog(this);
+
+    }
 
     @Override
     protected void onResume() {
@@ -56,39 +75,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        if(musicPlayer == null) {
-            musicPlayer = new MyMusicRunnable(this, R.raw.irishmusic);
-        }
-
-        if (soundEffectsUtil == null) {
-            soundEffectsUtil = new MySFxRunnable(this);
-        }
-
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
 
-        new Thread(new Runnable() {
+        AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 totalGold = sp.getString(TOTAL_GOLD_KEY,"0");
                 Log.i(goldTrackTag,"Total Gold : " + totalGold);
                 goldTextView = (TextView) findViewById(R.id.textView4);
-                goldTextView.post(new Runnable() {
+                MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         goldTextView.setText(totalGold);
                     }
                 });
             }
-        }).start();
+        });
 
     }
 
@@ -107,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startSettings(View view) {
-        Intent intent = new Intent(getBaseContext() , SettingsActivity.class);
-        startActivity(intent);
+        settingsDialog.show();
     }
 }

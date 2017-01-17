@@ -15,8 +15,8 @@ import com.mta.sharedutils.AsyncHandler;
 public class WinActivity extends AppCompatActivity {
 
     static String wonGold;
-    private MyMusicRunnable musicPlayer;
-    private MySFxRunnable soundEffectsUtil;
+    private static MyMusicRunnable musicPlayer;
+    private static MySFxRunnable soundEffectsUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class WinActivity extends AppCompatActivity {
         TextView text = (TextView)findViewById(R.id.settings);
         wonGold = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
         text.setText(wonGold);
-        new Thread(new Runnable() {
+        AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -54,7 +54,7 @@ public class WinActivity extends AppCompatActivity {
                 editor.putString(MainActivity.TOTAL_GOLD_KEY, Integer.toString(total));
                 editor.commit();
             }
-        }).start();
+        });
     }
 
     @Override
