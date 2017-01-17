@@ -58,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
 
     TextView speedTextView;
     Chronometer chromoneter;
+    TextView disview ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class GameActivity extends AppCompatActivity {
             intervalSound.changeRes(R.raw.detectbeep);
         }
 
+        disview = (TextView) findViewById(R.id.randLocation);
         //Location
         listener = new LocationListener() {
             @Override
@@ -126,9 +128,13 @@ public class GameActivity extends AppCompatActivity {
                     speedTextView.setText(""+(int)location.getSpeed());
                 }
                 Log.i(locationTag,  "offsetDistanceToTarget: " + offsetDistanceToTarget );
-                TextView view = (TextView) findViewById(R.id.randLocation);
-                view.setText("Distance : " + offsetDistanceToTarget );
 
+                disview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        disview.setText("Distance : " + offsetDistanceToTarget);
+                    }
+                });
 
                 // If not we are going to determine if the user getting close or far away from the target
                 if(lastDistanceToTarget < offsetDistanceToTarget){//Getting far
