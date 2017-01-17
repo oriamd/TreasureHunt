@@ -1,6 +1,7 @@
 package com.example.ori.treasurehunt;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,9 +22,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     final static String goldTrackTag = "TotalGoldTracker";
+    final static String tag = "MainActivity_log";
 
-    //should sound play when onClick
-    public static boolean CLICK_SOUND_ENABLE = true;
+
 
     final static int LVL_ONE_PRIZE = 100;
     final static int LVL_ONE_RADIOS = 500;
@@ -36,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
     public static String totalGold;
 
     public static final int FIRST_STAGE_PRIZE = 100;
+    public static final int FIRST_STAGE_RADIOS = 150;
 
     public static MyMusicRunnable musicPlayer;
     public static MySFxRunnable soundEffectsUtil;
 
     SettingsDialog settingsDialog;
+    Dialog aboutDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,27 +59,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         settingsDialog = new SettingsDialog(this);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        AsyncHandler.post(musicPlayer);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        AsyncHandler.post(musicPlayer);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         AsyncHandler.post(new Runnable() {
             @Override
@@ -94,23 +76,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Log.i(tag,"Created");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AsyncHandler.post(musicPlayer);
+
+        Log.i(tag,"Resumed");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AsyncHandler.post(musicPlayer);
+
+        Log.i(tag,"Pause");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
     }
 
     public void startGame(View view) {
-        if(CLICK_SOUND_ENABLE){
-            soundEffectsUtil.play(R.raw.detectoron);
-        }
+        soundEffectsUtil.playClickSound();
+
+        Log.i(tag,"Starting Game");
 
         Intent intent = new Intent(getBaseContext() , GameActivity.class);
-        intent.putExtra(GOAL_DISTANCE_IN_M , 100);
+        intent.putExtra(GOAL_DISTANCE_IN_M , FIRST_STAGE_RADIOS);
         intent.putExtra(PRIZE_AMOUNT,Integer.toString(FIRST_STAGE_PRIZE));
         startActivity(intent);
+
 
 
     }
 
 
     public void startSettings(View view) {
+        soundEffectsUtil.playClickSound();
         settingsDialog.show();
+    }
+
+    public void startTutorial(View view) {
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivity(intent);
+    }
+
+    public void startAbout(View view){
+        if(aboutDialog == null){
+            aboutDialog = new Dialog(this,R.style.AppTheme_noActionBar);
+            aboutDialog.setContentView(R.layout.about);
+        }
+        aboutDialog.show();
     }
 }

@@ -2,10 +2,15 @@ package com.example.ori.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -25,14 +30,16 @@ public class SettingsDialog extends Dialog {
     static final String VOLUME_SETTINGS_KEY = "volume_settings_key";
     static final String CLICK_SOUND_SETTINGS_KEY = "click_sound_settings_key";
 
+    //should sound play when onClick
+    public static boolean CLICK_SOUND_ENABLE = true;
+
     SeekBar seekBar;
     Switch soundSwitch;
 
     int volume;
-    boolean clickSound;
 
     public SettingsDialog(Context context) {
-        super(context, R.style.AppTheme_noActionBar);
+        super(context, R.style.AppTheme_noActionBar_popUp);
     }
 
     @Override
@@ -40,7 +47,7 @@ public class SettingsDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Log.i(tag,"Settings Dialog OnCreat Called");
+        Log.i(tag,"Settings Dialog OnCreate Called");
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         soundSwitch = (Switch) findViewById(R.id.switch1);
@@ -52,8 +59,12 @@ public class SettingsDialog extends Dialog {
                 volume = sp.getInt(VOLUME_SETTINGS_KEY,100);
                 seekBar.setProgress(volume);
 
-                clickSound = sp.getBoolean(CLICK_SOUND_SETTINGS_KEY,true);
-                soundSwitch.setChecked(clickSound);
+                Log.i(tag,"Setting view SharedPreferences Volume is : "+volume);
+
+                CLICK_SOUND_ENABLE = sp.getBoolean(CLICK_SOUND_SETTINGS_KEY,true);
+                soundSwitch.setChecked(CLICK_SOUND_ENABLE);
+
+                Log.i(tag,"Setting view SharedPreferences ClickSound is : "+CLICK_SOUND_ENABLE);
 
             }
         });
@@ -71,15 +82,17 @@ public class SettingsDialog extends Dialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                int progress = seekBar.getProgress();
+                Log.i(tag,"Volume Seekbar Stop at :" + seekBar.getProgress());
+                volume = progress;
             }
         });
 
         soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MainActivity.CLICK_SOUND_ENABLE = b;
-                clickSound = b;
+                CLICK_SOUND_ENABLE = b;
+                Log.i(tag,"ClickSound Switch changed to:" + b);
             }
         });
     }
@@ -99,12 +112,16 @@ public class SettingsDialog extends Dialog {
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sp.edit();
+                Log.i(tag,"Putting SharedPreferences volume to "+volume);
                 editor.putInt(VOLUME_SETTINGS_KEY, volume);
-                editor.putBoolean(CLICK_SOUND_SETTINGS_KEY, clickSound);
+                Log.i(tag,"Putting SharedPreferences clickSound to "+CLICK_SOUND_ENABLE);
+                editor.putBoolean(CLICK_SOUND_SETTINGS_KEY, CLICK_SOUND_ENABLE);
                 editor.commit();
             }
         });
 
 
     }
+
+
 }

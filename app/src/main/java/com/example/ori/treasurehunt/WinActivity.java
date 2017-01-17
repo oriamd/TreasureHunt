@@ -14,6 +14,8 @@ import com.mta.sharedutils.AsyncHandler;
 
 public class WinActivity extends AppCompatActivity {
 
+    static final String tag = "Win_Activity_Log";
+
     static String wonGold;
     private static MyMusicRunnable musicPlayer;
     private static MySFxRunnable soundEffectsUtil;
@@ -79,9 +81,7 @@ public class WinActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-        if(MainActivity.CLICK_SOUND_ENABLE){
-            soundEffectsUtil.play(R.raw.detectoron);
-        }
+        soundEffectsUtil.playClickSound();
         Intent intent = new Intent(getBaseContext(),MainActivity.class);
         startActivity(intent);
 

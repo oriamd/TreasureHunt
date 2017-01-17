@@ -7,28 +7,6 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/settings"
-        android:textSize="30sp"
-        tools:text="Game Settings"
-        tools:layout_editor_absoluteY="16dp"
-        tools:layout_editor_absoluteX="96dp" />
-
-    <TextView
-        android:layout_width="71dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        tools:text="CLICK SOUND"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView7"
-        tools:layout_editor_absoluteY="161dp"
-        app:layout_constraintRight_toLeftOf="@+id/switch1"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintHorizontal_bias="0.05" />
-
-    <TextView
         android:text="VOLUME"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +31,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="16dp"
         app:layout_constraintBottom_toTopOf="@+id/button7"
-        android:layout_marginBottom="88dp" />
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.65" />
 
     <Button
         android:text="ABOUT"
@@ -67,7 +48,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+         android:onClick="startAbout"/>
 
     <Button
         android:text="TUTORIAL"
@@ -81,7 +63,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toTopOf="@+id/button5"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="24dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/background_light"
+        android:onClick="startTutorial"/>
 
     <Switch
         android:text=""
@@ -93,5 +78,29 @@
         android:layout_marginEnd="48dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="48dp" />
+
+    <TextView
+        android:text="Click Sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/switch1"
+        app:layout_constraintBottom_toBottomOf="@+id/switch1"
+        app:layout_constraintLeft_toLeftOf="@+id/textView7"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:layout_width="354dp"
+        android:layout_height="84dp"
+        app:srcCompat="@drawable/settingsheader"
+        android:id="@+id/imageView6"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

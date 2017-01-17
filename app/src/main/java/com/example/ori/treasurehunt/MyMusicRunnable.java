@@ -38,23 +38,30 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
             @Override
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(appContext);
-                MyMusicRunnable.volume = sp.getInt(SettingsDialog.VOLUME_SETTINGS_KEY, 100);
-                MainActivity.CLICK_SOUND_ENABLE = sp.getBoolean(SettingsDialog.CLICK_SOUND_SETTINGS_KEY, true);
+                int newVolume = sp.getInt(SettingsDialog.VOLUME_SETTINGS_KEY, 100);
+                MyMusicRunnable.volume = newVolume;
+                Log.i(tag,"SharedPref new volume is :" + newVolume);
+                boolean newClickSound = sp.getBoolean(SettingsDialog.CLICK_SOUND_SETTINGS_KEY, true);
+                SettingsDialog.CLICK_SOUND_ENABLE = newClickSound;
+                Log.i(tag,"SharedPref new clickSound is :" + newClickSound);
             }
         });
 
         this.resId = resId;
     }
 
-    void changeVolume(int volume){
+    public void changeVolume(int volume){
         MyMusicRunnable.volume = volume;
         float volumeToSet = (float) (1 - (Math.log(100 - volume) / Math.log(100)));
         mPlayer.setVolume(volumeToSet,volumeToSet);
+
+        Log.i(tag,"changeVolume() to : " + volumeToSet );
     }
 
     void changeVolume(){
         float volumeToSet = (float) (1 - (Math.log(100 - MyMusicRunnable.volume) / Math.log(100)));
         mPlayer.setVolume(volumeToSet,volumeToSet);
+        Log.i(tag,"changeVolume() to : " + volumeToSet );
     }
 
     public boolean isMusicIsPlaying() {

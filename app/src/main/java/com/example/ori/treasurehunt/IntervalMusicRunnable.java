@@ -42,6 +42,7 @@ public class IntervalMusicRunnable implements Runnable {
 
         this.soundEffectsUtil = soundEffectsUtil;
 
+
         this.resId = resId;
     }
 
