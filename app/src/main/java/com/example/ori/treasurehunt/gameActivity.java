@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +30,13 @@ public class GameActivity extends AppCompatActivity {
     public static final String tag = "GAME_ACTIVITY_LOG";
     public static final String locationTag = "GAME__Location_LOG";
 
+    public static final String NO_GPS_EXTRA = "no_gps_extra";
+
     private String prizeAmount;
 
     private static MyMusicRunnable mediaPlayer;
     private static MySFxRunnable soundEffectsUtil;
     private static IntervalMusicRunnable intervalSound;
-
 
 
     private LocationManager manager;
@@ -56,7 +58,8 @@ public class GameActivity extends AppCompatActivity {
     private double DEBUG_LATITUDETE_START = 32.164798;
     private double DEBUG_LONGITUDE_START = 34.835519;
 
-    TextView speedTextView;
+
+
     Chronometer chromoneter;
     TextView disview ;
 
@@ -91,7 +94,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
         disview = (TextView) findViewById(R.id.randLocation);
-        speedTextView = (TextView) findViewById(R.id.speed);
         //Location
         listener = new LocationListener() {
             @Override
@@ -113,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
                     Log.i(locationTag," first location offsetDistanceToTarget :" + offsetDistanceToTarget);
 
                     intervalSound.setPlay();
-                    intervalSound.setFrequency(SOUND_FREQUENCY_INITIAL_MS);
+                    changeInterval(offsetDistanceToTarget);
                     AsyncHandler.post(intervalSound);
                     chromoneter.setBase(SystemClock.elapsedRealtime());
                     chromoneter.start();
@@ -125,9 +127,6 @@ public class GameActivity extends AppCompatActivity {
 
 
                 offsetDistanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;
-                if(location.hasSpeed()) {
-                    speedTextView.setText(""+(int)location.getSpeed());
-                }
                 Log.i(locationTag,  "offsetDistanceToTarget: " + offsetDistanceToTarget );
 
                 if(disview != null) {
@@ -184,7 +183,6 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
-        startLocation();
 
     }
 
@@ -202,6 +200,8 @@ public class GameActivity extends AppCompatActivity {
         soundEffectsUtil.playClickSound();
         Log.i(tag,"pause()");
         AsyncHandler.post(mediaPlayer);
+
+
     }
 
     @Override
@@ -210,6 +210,10 @@ public class GameActivity extends AppCompatActivity {
         soundEffectsUtil.playClickSound();
         Log.i(tag,"resume()");
         AsyncHandler.post(mediaPlayer);
+
+        startLocation();
+
+
     }
 
     @Override
@@ -220,6 +224,7 @@ public class GameActivity extends AppCompatActivity {
                 startLocation();
                 break;
             default:
+                Toast.makeText(getApplicationContext(),"Please Allow Gps Pemission",Toast.LENGTH_LONG);
                 break;
         }
     }
@@ -233,10 +238,14 @@ public class GameActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.INTERNET}
                         ,10);
             }
-            return;
         }
 
-        manager.requestLocationUpdates("gps", 5000, 0, listener);
+        if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
+        }else {
+            Toast.makeText(getApplicationContext(),"Please turn ON gps",Toast.LENGTH_LONG);
+            finish();
+        }
 
     }
 
@@ -248,7 +257,7 @@ public class GameActivity extends AppCompatActivity {
         double y0 = location.getLongitude();
 
         // Convert radius from meters to degrees
-        double radiusInDegrees = 500 / 111000f;
+        double radiusInDegrees = radios / 111000f;
 
         double u = Math.random();
         double v = Math.random();
@@ -265,8 +274,8 @@ public class GameActivity extends AppCompatActivity {
 
         randLocation.setLatitude(foundLongitude);
         randLocation.setLongitude(foundLatitude);
-        randLocation.setLatitude(DEBUG_LATITUDETE_TARGET);
-        randLocation.setLongitude(DEBUG_LONGITUDE_TARGET);
+        //randLocation.setLatitude(DEBUG_LATITUDETE_TARGET);
+        //randLocation.setLongitude(DEBUG_LONGITUDE_TARGET);
 
         //TextView view = (TextView) findViewById(R.id.randLocation);
         //view.setText("RandLocation : " + randLocation.getLatitude() +", "+randLocation.getLongitude());

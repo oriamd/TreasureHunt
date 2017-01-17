@@ -47,25 +47,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/imageView"
         android:id="@+id/constraintLayout">
 
-        <TextView
-        android:text="@string/speed"
-        android:layout_width="49dp"
-        android:layout_height="42dp"
-        android:id="@+id/speed"
-        android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <TextView
-            android:text="@string/speed_unit"
+        <Chronometer
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:id="@+id/speedunit"
-            app:layout_constraintTop_toBottomOf="@+id/speed"
-            app:layout_constraintLeft_toRightOf="@+id/speed" />
-
+            android:id="@+id/chronometer2"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.42"
+            app:layout_constraintVertical_bias="0.6" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView
@@ -99,14 +91,5 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="16dp"
         android:onClick="win"/>
-
-    <Chronometer
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chronometer2"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout" />
 
 </android.support.constraint.ConstraintLayout>
