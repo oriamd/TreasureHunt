@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
         settingsDialog = new SettingsDialog(this);
 
+        TextView level = (TextView) findViewById(R.id.textView1);
+        level.setText(""+LVL_ONE_PRIZE);
+
         AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
