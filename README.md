@@ -9,5 +9,6 @@ The player will try to find the gold using 2 beep sounds that indicates if he is
 When reached 100 meters from the gold the beep sounds will then play more frequently as getting closer.
 Once the player reaches the gold the stage prize gold wil stack up to is total gold
 
-
+##Project description
+https://docs.google.com/document/d/1p7tweNyQ82AGFzjBAiOXwc7VfSLxJ1s8NKo2K5rgIRA/edit?usp=sharing
 
