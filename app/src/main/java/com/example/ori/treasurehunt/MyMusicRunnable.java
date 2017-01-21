@@ -29,8 +29,7 @@ public class MyMusicRunnable implements Runnable, MediaPlayer.OnCompletionListen
      * @param resId the music res
      */
     public MyMusicRunnable(Context c, int resId ) {
-        // be careful not to leak the activity context.
-        // can keep the app context instead.
+
         appContext = c.getApplicationContext();
 
         AsyncHandler.post(new Runnable() {
