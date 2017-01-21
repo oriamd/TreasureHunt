@@ -1,8 +1,6 @@
 package com.example.ori.treasurehunt;
 
 import android.content.Context;
-import android.media.AsyncPlayer;
-import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.mta.sharedutils.AsyncHandler;
@@ -82,7 +80,7 @@ public class IntervalMusicRunnable implements Runnable {
     public void run() {
         if (sStillPlaying) {
             AsyncHandler.postDelayed(this, frequency, true);
-            Log.i(tag, "Playing : frequency = "+frequency);
+            //Log.i(tag, "Playing : frequency = "+frequency);
             soundEffectsUtil.play(resId);
         }
     }

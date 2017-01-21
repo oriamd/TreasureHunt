@@ -1,19 +1,13 @@
 package com.example.ori.treasurehunt;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
@@ -69,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 totalGold = sp.getString(TOTAL_GOLD_KEY,"0");
-                Log.i(goldTrackTag,"Total Gold : " + totalGold);
+                //Log.i(goldTrackTag,"Total Gold : " + totalGold);
                 goldTextView = (TextView) findViewById(R.id.textView4);
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Log.i(tag,"Created");
+        //Log.i(tag,"Created");
 
     }
 
@@ -89,15 +83,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         AsyncHandler.post(musicPlayer);
 
-        Log.i(tag,"Resumed");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         AsyncHandler.post(musicPlayer);
-
-        Log.i(tag,"Pause");
 
     }
 
@@ -109,14 +100,12 @@ public class MainActivity extends AppCompatActivity {
     public void startGame(View view) {
         soundEffectsUtil.playClickSound();
 
-        Log.i(tag,"Starting Game");
+        //Log.i(tag,"Starting Game");
 
         Intent intent = new Intent(getBaseContext() , GameActivity.class);
         intent.putExtra(GOAL_DISTANCE_IN_M , FIRST_STAGE_RADIOS);
         intent.putExtra(PRIZE_AMOUNT,Integer.toString(FIRST_STAGE_PRIZE));
         startActivity(intent);
-
-
 
     }
 

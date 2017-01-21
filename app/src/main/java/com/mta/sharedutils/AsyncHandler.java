@@ -52,10 +52,10 @@ public final class AsyncHandler {
                 @AsyncMessage int what = msg.what;
                 switch (what) {
                     case EXAMPLE_MESSAGE_1:
-                        Log.i(TAG, "Hey, got message no. 1!! (I could do something useful with it)");
+                        //Log.i(TAG, "Hey, got message no. 1!! (I could do something useful with it)");
                         break;
                     case EXAMPLE_MESSAGE_2:
-                        Log.i(TAG, "Hey, got message no. 2!! (I could do something else)");
+                        //Log.i(TAG, "Hey, got message no. 2!! (I could do something else)");
                         break;
                 }
 

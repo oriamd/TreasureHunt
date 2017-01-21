@@ -54,7 +54,7 @@ public class WinActivity extends AppCompatActivity {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 int total = Integer.parseInt(sp.getString(MainActivity.TOTAL_GOLD_KEY, "0"))
                             + Integer.parseInt(wonGold);
-                Log.i(MainActivity.goldTrackTag,"Total Gold : " + total);
+                //Log.i(MainActivity.goldTrackTag,"Total Gold : " + total);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString(MainActivity.TOTAL_GOLD_KEY, Integer.toString(total));
                 editor.commit();

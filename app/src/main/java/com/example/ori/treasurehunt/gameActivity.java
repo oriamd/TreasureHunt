@@ -1,11 +1,9 @@
 package com.example.ori.treasurehunt;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.text.DateFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,9 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Chronometer;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mta.sharedutils.AsyncHandler;
@@ -54,15 +50,15 @@ public class GameActivity extends AppCompatActivity {
 
 
     //Debug parameters for emulation the user progress
+    /*
     private double DEBUG_LATITUDETE_TARGET = 32.165391;
     private double DEBUG_LONGITUDE_TARGET = 34.834500;
     private double DEBUG_LATITUDETE_START = 32.164798;
     private double DEBUG_LONGITUDE_START = 34.835519;
-
+    */
 
 
     Chronometer chromoneter;
-    TextView disview ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        Log.i(tag,"Create()");
+        //Log.i(tag,"Create()");
         //storing extras
         prizeAmount = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
 
@@ -94,7 +90,6 @@ public class GameActivity extends AppCompatActivity {
             intervalSound.changeRes(R.raw.detectbeep);
         }
 
-        disview = (TextView) findViewById(R.id.randLocation);
         //Location
         listener = new LocationListener() {
             @Override
@@ -113,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
 
                     //distance from start
                     offsetDistanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;  //The real distance is les because we have radios
-                    Log.i(locationTag," first location offsetDistanceToTarget :" + offsetDistanceToTarget);
+                    //Log.i(locationTag," first location offsetDistanceToTarget :" + offsetDistanceToTarget);
 
                     intervalSound.setPlay();
                     changeInterval(offsetDistanceToTarget);
@@ -128,22 +123,14 @@ public class GameActivity extends AppCompatActivity {
 
 
                 offsetDistanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;
-                Log.i(locationTag,  "offsetDistanceToTarget: " + offsetDistanceToTarget );
+                //Log.i(locationTag,  "offsetDistanceToTarget: " + offsetDistanceToTarget );
 
-                if(disview != null) {
-                    disview.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            disview.setText("Distance : " + offsetDistanceToTarget);
-                        }
-                    });
-                }
 
                 // If not we are going to determine if the user getting close or far away from the target
                 if(lastDistanceToTarget < offsetDistanceToTarget){//Getting far
 
                     Toast.makeText(getBaseContext(),"Getting Far", Toast.LENGTH_SHORT).show();
-                    Log.i(locationTag,"Getting Far");
+                    //Log.i(locationTag,"Getting Far");
 
                     intervalSound.changeRes(R.raw.errorbuzz);
                     intervalSound.setPlay();
@@ -152,7 +139,7 @@ public class GameActivity extends AppCompatActivity {
                 }else if(lastDistanceToTarget > offsetDistanceToTarget) {//Getting close
 
                     Toast.makeText(getBaseContext(), "Getting Close", Toast.LENGTH_SHORT).show();
-                    Log.i(locationTag,"Getting Close");
+                    //Log.i(locationTag,"Getting Close");
                     intervalSound.changeRes(R.raw.detectbeep);
                     intervalSound.setPlay();
                     changeInterval(offsetDistanceToTarget);
@@ -200,7 +187,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         soundEffectsUtil.playClickSound();
-        Log.i(tag,"pause()");
+        //Log.i(tag,"pause()");
         AsyncHandler.post(mediaPlayer);
 
 
@@ -210,7 +197,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         soundEffectsUtil.playClickSound();
-        Log.i(tag,"resume()");
+        //Log.i(tag,"resume()");
         AsyncHandler.post(mediaPlayer);
 
 
@@ -279,13 +266,13 @@ public class GameActivity extends AppCompatActivity {
 
         //TextView view = (TextView) findViewById(R.id.randLocation);
         //view.setText("RandLocation : " + randLocation.getLatitude() +", "+randLocation.getLongitude());
-        Log.i(locationTag,"RandLocation Set on :" + randLocation.getLatitude() +", "+randLocation.getLongitude() + "real Diatance from player :" + randLocation.distanceTo(location));
+        //Log.i(locationTag,"RandLocation Set on :" + randLocation.getLatitude() +", "+randLocation.getLongitude() + "real Diatance from player :" + randLocation.distanceTo(location));
 
     }
 
 
     public void win(View view) {
-        Log.i(locationTag,"Player Won gold :"+ prizeAmount.toString());
+        //Log.i(locationTag,"Player Won gold :"+ prizeAmount.toString());
         chromoneter.stop();
         intervalSound.setPause();
         manager.removeUpdates(listener);

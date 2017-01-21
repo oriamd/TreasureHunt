@@ -46,23 +46,13 @@
         android:layout_marginBottom="40dp">
 
         <TextView
-        android:text="@string/speed"
-        android:layout_width="49dp"
-        android:layout_height="42dp"
-        android:id="@+id/speed"
-        android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <TextView
             android:text="@string/speed_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:id="@+id/speedunit"
-            app:layout_constraintTop_toBottomOf="@+id/speed"
-            app:layout_constraintLeft_toRightOf="@+id/speed" />
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -74,21 +64,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.58" />
-
-    <TextView
-        android:text="Speed"
-        android:layout_width="81dp"
-        android:layout_height="42dp"
-        android:gravity="center"
-        android:id="@+id/textViewspeedtime"
-        android:background="@drawable/tutorialbackround"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.55"
-        app:layout_constraintRight_toLeftOf="@+id/constraintLayout"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintVertical_bias="0.58000004"
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout" />
 
     <TextView
         android:text="Exit"
