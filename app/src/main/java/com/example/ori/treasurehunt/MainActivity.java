@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             aboutDialog = new Dialog(this,R.style.AppTheme_noActionBar);
             aboutDialog.setContentView(R.layout.about);
         }
+
         aboutDialog.show();
     }
 

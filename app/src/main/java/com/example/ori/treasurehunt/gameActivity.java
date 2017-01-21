@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.DateFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
     public static final String tag = "GAME_ACTIVITY_LOG";
     public static final String locationTag = "GAME__Location_LOG";
 
-    public static final String NO_GPS_EXTRA = "no_gps_extra";
+    public static final String TIME_EXTRA = "time_extra";
 
     private String prizeAmount;
 
@@ -183,6 +184,7 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
+        startLocation();
 
     }
 
@@ -211,8 +213,6 @@ public class GameActivity extends AppCompatActivity {
         Log.i(tag,"resume()");
         AsyncHandler.post(mediaPlayer);
 
-        startLocation();
-
 
     }
 
@@ -224,7 +224,7 @@ public class GameActivity extends AppCompatActivity {
                 startLocation();
                 break;
             default:
-                Toast.makeText(getApplicationContext(),"Please Allow Gps Pemission",Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(),"Please Allow Gps Pemission",Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -241,9 +241,9 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, listener);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, listener);
         }else {
-            Toast.makeText(getApplicationContext(),"Please turn ON gps",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -289,8 +289,11 @@ public class GameActivity extends AppCompatActivity {
         chromoneter.stop();
         intervalSound.setPause();
         manager.removeUpdates(listener);
+
         Intent intent = new Intent(getBaseContext(), WinActivity.class);
         intent.putExtra(MainActivity.PRIZE_AMOUNT,prizeAmount.toString());
+        String timeStr = chromoneter.getText().toString();
+        intent.putExtra(TIME_EXTRA,timeStr);
         startActivity(intent);
     }
 

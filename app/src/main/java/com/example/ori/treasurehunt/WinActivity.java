@@ -42,9 +42,12 @@ public class WinActivity extends AppCompatActivity {
         }
 
         //Setting the gold text
-        TextView text = (TextView)findViewById(R.id.settings);
-        wonGold = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
-        text.setText(wonGold);
+        Intent intent = getIntent();
+        TextView goldText = (TextView)findViewById(R.id.settings);
+        wonGold = intent.getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
+        goldText.setText(wonGold);
+        TextView timeText = (TextView) findViewById(R.id.textView16);
+        timeText.setText(intent.getExtras().getString(GameActivity.TIME_EXTRA,"00"));
         AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
