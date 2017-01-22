@@ -8,13 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
 import com.mta.sharedutils.AsyncHandler;
 
 import io.fabric.sdk.android.Fabric;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     final static int LVL_ONE_PRIZE = 100;
     final static int LVL_ONE_RADIOS = 500;
+
     public final static String GOAL_DISTANCE_IN_M = "distance_to_taget_code";
     public final static String PRIZE_AMOUNT = "prize_amount_code";
     public final static String TOTAL_GOLD_KEY ="total_player_gold_sp_key";
@@ -33,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView goldTextView;
     public static String totalGold;
 
-    public static final int FIRST_STAGE_PRIZE = 100;
-    public static final int FIRST_STAGE_RADIOS = 150;
 
     public static MyMusicRunnable musicPlayer;
     public static MySFxRunnable soundEffectsUtil;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
+        //Setting sound
         if(musicPlayer == null) {
             musicPlayer = new MyMusicRunnable(this, R.raw.irishmusic);
         }
@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
         settingsDialog = new SettingsDialog(this);
 
+        //Setting levels textview wit prize
         TextView level = (TextView) findViewById(R.id.textView1);
-        level.setText(""+LVL_ONE_PRIZE);
+        level.setText(LVL_ONE_PRIZE+" gold");
 
+        //Starting music
         AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -100,18 +102,30 @@ public class MainActivity extends AppCompatActivity {
         this.finishAffinity();
     }
 
-    public void startGame(View view) {
+    public void startLvlOne(View view) {
         soundEffectsUtil.playClickSound();
 
         //Log.i(tag,"Starting Game");
 
-        Intent intent = new Intent(getBaseContext() , GameActivity.class);
-        intent.putExtra(GOAL_DISTANCE_IN_M , FIRST_STAGE_RADIOS);
-        intent.putExtra(PRIZE_AMOUNT,Integer.toString(FIRST_STAGE_PRIZE));
+        Intent intent = new Intent(getBaseContext() , MainGameActivity.class);
+        //Extra with the gold Radios and the level prize
+        intent.putExtra(GOAL_DISTANCE_IN_M , LVL_ONE_RADIOS);
+        intent.putExtra(PRIZE_AMOUNT,Integer.toString(LVL_ONE_PRIZE));
+        //Starting game
         startActivity(intent);
 
     }
 
+    public void startLvlTwo(View view) {
+
+        Toast.makeText(getBaseContext(), "Not available on beta version", Toast.LENGTH_SHORT).show();
+
+    }
+    public void startLvlThree(View view) {
+
+        Toast.makeText(getBaseContext(), "Not available on beta version", Toast.LENGTH_SHORT).show();
+
+    }
 
     public void startSettings(View view) {
         soundEffectsUtil.playClickSound();
