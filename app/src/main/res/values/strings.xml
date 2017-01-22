@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">TreasureHunt</string>
-    <string name="level_one_gold_value">100 gold</string>
-    <string name="level_two_gold_value">200 gold</string>
-    <string name="level_three_gold_value">300 gold</string>
     <string name="total_gold">0</string>
     <string name="speed_unit">km/h</string>
     <string name="speed">00</string>

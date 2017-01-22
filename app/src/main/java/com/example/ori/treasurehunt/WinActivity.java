@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,10 +43,12 @@ public class WinActivity extends AppCompatActivity {
         //Setting the gold text
         Intent intent = getIntent();
         TextView goldText = (TextView)findViewById(R.id.settings);
+
+        //We need to add the gold he won to SharedPreferences total gold
         wonGold = intent.getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
         goldText.setText(wonGold);
         TextView timeText = (TextView) findViewById(R.id.textView16);
-        timeText.setText(intent.getExtras().getString(GameActivity.TIME_EXTRA,"00"));
+        timeText.setText(intent.getExtras().getString(MainGameActivity.TIME_EXTRA,"00"));
         AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
