@@ -1,5 +1,4 @@
- 
- # TreasureHunt
+#TreasureHunt
 
 <img src="images/icon.png" width="200"> 
 
