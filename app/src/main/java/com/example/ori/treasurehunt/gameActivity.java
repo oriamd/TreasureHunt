@@ -42,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
     private double offsetDistanceToTarget;        //distance from first taken location to randLocation
     private double lastDistanceToTarget;    //the last Distance taken to the randLocation
     private int frequency;
-    public static final int TARGET_OFFSET_METER = 10;                   //The radios to the target
+    public static final int TARGET_OFFSET_METER = 20;                   //The radios to the target
     public static final int DISTANCE_TO_START_INTERVAL_METER = 100;    //When in X distance will start changing the interval
     public static final int SOUND_FREQUENCY_INITIAL_MS = 2000;       //The frequency which the sound start with
     public static final int INTERVAL_METER = 10;                    // The frequency  will change every  INTERVAL_METER's
@@ -228,7 +228,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, listener);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
         }else {
             Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
             finish();
