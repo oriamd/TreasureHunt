@@ -5,7 +5,7 @@
     android:id="@+id/activity_win"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ori.treasurehunt.WinActivity">
+    tools:context="com.example.ori.treasurehunt.com.treasurehunt.WinActivity">
 
     <Button
         android:text="MENU"

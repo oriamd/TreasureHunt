@@ -19,7 +19,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.example.ori.treasurehunt"
+        applicationId "com.ori.treasurehunt"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1

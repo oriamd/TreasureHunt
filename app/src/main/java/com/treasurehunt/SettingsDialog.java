@@ -1,15 +1,15 @@
-package com.example.ori.treasurehunt;
+package com.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.constraint.ConstraintLayout;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
+import com.example.ori.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 /**

@@ -1,4 +1,4 @@
-package com.example.ori.treasurehunt;
+package com.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
+import com.example.ori.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 import io.fabric.sdk.android.Fabric;

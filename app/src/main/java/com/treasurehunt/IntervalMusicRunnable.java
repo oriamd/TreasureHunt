@@ -1,11 +1,8 @@
-package com.example.ori.treasurehunt;
+package com.treasurehunt;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mta.sharedutils.AsyncHandler;
-
-import java.io.IOException;
 
 /**
  * Created by Ori on 1/15/2017.

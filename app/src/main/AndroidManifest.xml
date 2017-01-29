@@ -14,7 +14,7 @@
         android:versionName="0.5"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.treasurehunt.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar">
             <intent-filter>
@@ -24,14 +24,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainGameActivity"
+            android:name="com.treasurehunt.MainGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar" />
         <activity
-            android:name=".WinActivity"
+            android:name="com.treasurehunt.WinActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar.popUp" />
-        <activity android:name=".TutorialActivity"></activity>
+        <activity android:name="com.treasurehunt.TutorialActivity"></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="cc84bb8e95ec0cb75f7345c5bde3b667661a1b8d" />

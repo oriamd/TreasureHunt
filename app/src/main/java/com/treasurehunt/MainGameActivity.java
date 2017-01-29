@@ -1,4 +1,4 @@
-package com.example.ori.treasurehunt;
+package com.treasurehunt;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -15,11 +15,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
+import com.example.ori.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 public class MainGameActivity extends AppCompatActivity {
@@ -214,10 +214,16 @@ public class MainGameActivity extends AppCompatActivity {
 
         switch (requestCode){
             case 10:
-                startLocation();
+                if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
+                }else {//User need to turn on GPS provider
+                    Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
+                    finish();
+                }
                 break;
             default://In case the user have't gave permission he can't play
                 Toast.makeText(getApplicationContext(),"Please Allow Gps Permission",Toast.LENGTH_LONG).show();
+                finish();
                 break;
         }
     }
@@ -233,12 +239,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         }
 
-        if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
-        }else {//User need to turn on GPS provider
-            Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
-            finish();
-        }
+
 
     }
 

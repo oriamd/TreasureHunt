@@ -1,4 +1,4 @@
-package com.example.ori.treasurehunt;
+package com.treasurehunt;
 
 import android.content.Context;
 import android.content.SharedPreferences;
