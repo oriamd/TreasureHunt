@@ -19,6 +19,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
+
     final static String goldTrackTag = "TotalGoldTracker";
     final static String tag = "MainActivity_log";
 
@@ -30,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
     public final static String GOAL_DISTANCE_IN_M = "distance_to_taget_code";
     public final static String PRIZE_AMOUNT = "prize_amount_code";
     public final static String TOTAL_GOLD_KEY ="total_player_gold_sp_key";
+    public final static String FIRST_TIME_PLAYING_KEY ="first_time_Playing_sp_key";
     public final static String VOLUME_KEY="volume_low_high";
     public final static String SOUND_KEY="sound_on_off";
     private TextView goldTextView;
     public static String totalGold;
+    public static boolean firstTimePlaying;
 
 
     public static MyMusicRunnable musicPlayer;
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         settingsDialog = new SettingsDialog(this);
 
-        //Setting levels textview wit prize
+        //Setting levels textview with prize
         TextView level = (TextView) findViewById(R.id.textView1);
         level.setText(LVL_ONE_PRIZE+" gold");
 
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                         goldTextView.setText(totalGold);
                     }
                 });
+
+                firstTimePlaying = sp.getBoolean(FIRST_TIME_PLAYING_KEY, true);
+
             }
         });
 
@@ -104,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startLvlOne(View view) {
+
         soundEffectsUtil.playClickSound();
 
         //Log.i(tag,"Starting Game");

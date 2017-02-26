@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -26,7 +27,6 @@ public class MainGameActivity extends AppCompatActivity {
 
     public static final String tag = "GAME_ACTIVITY_LOG";
     public static final String locationTag = "GAME__Location_LOG";
-
     public static final String TIME_EXTRA = "time_extra";
 
     private String prizeAmount;
@@ -48,6 +48,7 @@ public class MainGameActivity extends AppCompatActivity {
     public static final int INTERVAL_METER = 10;                    // The frequency  will change every  INTERVAL_METER's
     public static final int INTERVAL_MS =  SOUND_FREQUENCY_INITIAL_MS /INTERVAL_METER; //The frequency  will change by INTERVAL_MS
 
+    AnimatedGameMassages animatedGameMassages;
 
     //Debug parameters for emulation the user progress
     /*
@@ -95,8 +96,6 @@ public class MainGameActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
 
-
-
                 //If its the first time we are getting the location we are going to set a random location
                 if( randLocation == null){
                     //Getting the radios for setting the target location in range
@@ -115,13 +114,37 @@ public class MainGameActivity extends AppCompatActivity {
                     offsetDistanceToTarget = location.distanceTo(randLocation)-TARGET_OFFSET_METER;  //The real distance is les because we have radios
                     //Log.i(locationTag," first location offsetDistanceToTarget :" + offsetDistanceToTarget);
 
-                    //Now that target hs been set we can start the beep sound and start the stopwatch
-                    intervalSound.setPlay();
-                    changeInterval(offsetDistanceToTarget);
-                    AsyncHandler.post(intervalSound);
-                    chromoneter.setBase(SystemClock.elapsedRealtime());
-                    chromoneter.start();
 
+
+                    //Now getting ready and starting timer
+                    animatedGameMassages.showReadyMsg();
+                    new CountDownTimer(3000,1000){
+                        @Override
+                        public void onTick(long l) {
+                        }
+                        @Override
+                        public void onFinish() {
+                            //after 3 sec starting the game
+                            animatedGameMassages.hideReadyMsg();
+                            animatedGameMassages.showGoMsg();
+                            //Now that target hs been set we can start the beep sound and start the stopwatch
+                            intervalSound.setPlay();
+                            soundEffectsUtil.playClickSound();
+                            changeInterval(offsetDistanceToTarget);
+                            AsyncHandler.post(intervalSound);
+                            chromoneter.setBase(SystemClock.elapsedRealtime());
+                            chromoneter.start();
+                        }
+                    }.start();
+                    new CountDownTimer(5000,1000){
+                        @Override
+                        public void onTick(long l) {
+                        }
+                        @Override
+                        public void onFinish() {
+                            animatedGameMassages.hideGoMsg();
+                        }
+                    }.start();
                     //Saving last Distance
                     lastDistanceToTarget = offsetDistanceToTarget;
                     return;
@@ -166,16 +189,20 @@ public class MainGameActivity extends AppCompatActivity {
 
             @Override
             public void onProviderEnabled(String s) {
-
+                Toast.makeText(getApplicationContext(), "GPS ON", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onProviderDisabled(String s) {
-
+                //To avoid cheating the time will keep running.
+                Toast.makeText(getApplicationContext(), "Please turn ON GPS, Time's Running!", Toast.LENGTH_LONG).show();
+                //Opening settings to turn on GPS
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
         };
+
+        animatedGameMassages = new AnimatedGameMassages(this);
 
         startLocation();
 
@@ -206,25 +233,26 @@ public class MainGameActivity extends AppCompatActivity {
         //Log.i(tag,"resume()");
         AsyncHandler.post(mediaPlayer);
 
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        switch (requestCode){
-            case 10:
-                if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
-                }else {//User need to turn on GPS provider
-                    Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
+        switch (requestCode) {
+            case 10: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
+                    } else {//User need to turn on GPS provider
+                        Toast.makeText(getApplicationContext(), "Please turn ON GPS", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Allow Gps Permission", Toast.LENGTH_LONG).show();
                     finish();
                 }
-                break;
-            default://In case the user have't gave permission he can't play
-                Toast.makeText(getApplicationContext(),"Please Allow Gps Permission",Toast.LENGTH_LONG).show();
-                finish();
-                break;
+                return;
+            }
         }
     }
 
@@ -236,10 +264,16 @@ public class MainGameActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.INTERNET}
                         ,10);
+                return ;
             }
         }
 
-
+        if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, listener);
+        }else {//User need to turn on GPS provider
+            Toast.makeText(getApplicationContext(),"Please turn ON GPS",Toast.LENGTH_LONG).show();
+            finish();
+        }
 
     }
 
