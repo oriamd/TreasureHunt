@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import com.example.ori.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.example.ori.treasurehunt.R.id.imageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     SettingsDialog settingsDialog;
     StageManager stageManager;
     Dialog aboutDialog;
+    YesNoDialog yesNoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +67,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         settingsDialog = new SettingsDialog(this);
+        yesNoDialog = new YesNoDialog(this);
 
         //Setting levels textview with prize
         TextView level = (TextView) findViewById(R.id.textView1);
-        level.setText(stageManager.LVL_ONE_PRIZE+" gold");
+        level.setText(stageManager.getLevel(1).prize+" gold");
+        //Setting levels textview with prize
+        level = (TextView) findViewById(R.id.textView2);
+        level.setText(stageManager.getLevel(2).prize+" gold");
+        level = (TextView) findViewById(R.id.textView3);
+        level.setText(stageManager.getLevel(3).prize+" gold");
+
 
         //Starting music
         AsyncHandler.post(new Runnable() {
             @Override
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+                // ******* FOR DEBUG , NEED TO REMOVE! **********
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString(TOTAL_GOLD_KEY,"5000");
+                editor.commit();
+
                 totalGold = sp.getString(TOTAL_GOLD_KEY,"0");
                 //Log.i(goldTrackTag,"Total Gold : " + totalGold);
                 goldTextView = (TextView) findViewById(R.id.textView4);
@@ -111,34 +128,62 @@ public class MainActivity extends AppCompatActivity {
         this.finishAffinity();
     }
 
-    public void startLvlOne(View view) {
-
+    /**
+     * Level Button Event trigger this
+     * @param view
+     */
+    public void startLvl(View view) {
         soundEffectsUtil.playClickSound();
+        switch (view.getId()) {
+            case R.id.imageButton: {
+                startLvl(stageManager.getLevel(1));
+                break;
+            }
+            case R.id.imageButton2: {
+                startLvl(stageManager.getLevel(2));
+                break;
+            }
+            case R.id.imageButton3: {
+                startLvl(stageManager.getLevel(3));
+                break;
+            }
+        }
+    }
 
-        //Log.i(tag,"Starting Game");
+    /**
+     * Starting the game with , parameters taken from StageManager.lvl
+     * @param lvl obj who wish to start
+     */
+    public void startLvl(final StageManager.Level lvl) {
+        if(!lvl.isUnlocked()){
+            if(Integer.parseInt(totalGold) >= lvl.goldToUnlock){
 
+                yesNoDialog.setContentText("Do you want to Unlock this Level? \n" + lvl.goldToUnlock+ " Gold to unlock ");
+                yesNoDialog.setYesListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        lvl.unlockStage();
+                        yesNoDialog.hide();
+                    }
+                });
+                yesNoDialog.show();
+                return;
+            }else{
+                Toast.makeText(this, "Level Locked. Unlock with "+lvl.goldToUnlock+" GOLD",Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
         Intent intent = new Intent(getBaseContext() , MainGameActivity.class);
         //Extra with the gold Radios and the level prize
-        intent.putExtra(GOAL_DISTANCE_IN_M , stageManager.LVL_ONE_RADIOS);
-        intent.putExtra(PRIZE_AMOUNT,Integer.toString(stageManager.LVL_ONE_PRIZE));
+        intent.putExtra(GOAL_DISTANCE_IN_M , lvl.radios);
+        intent.putExtra(PRIZE_AMOUNT,Integer.toString(lvl.prize));
         //Starting game
         startActivity(intent);
 
     }
 
-    public void startLvlTwo(View view) {
-        if( Integer.parseInt(totalGold) < stageManager.LVL_TWO_UNLOCK_PRICE) {
-            Toast.makeText(getBaseContext(), "Unlock with "+stageManager.LVL_TWO_UNLOCK_PRICE+" GOLD", Toast.LENGTH_SHORT).show();
-        }else{
 
-        }
 
-    }
-    public void startLvlThree(View view) {
-
-        Toast.makeText(getBaseContext(), "Not available on beta version", Toast.LENGTH_SHORT).show();
-
-    }
 
     public void startSettings(View view) {
         soundEffectsUtil.playClickSound();
