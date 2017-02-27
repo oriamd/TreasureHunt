@@ -89,8 +89,9 @@
         android:background="@drawable/roundgreen"
         android:backgroundTint="@android:color/holo_red_light"
         android:padding="10dp"
+        app:layout_constraintVertical_bias="0.3"
         android:visibility="invisible"
-        app:layout_constraintVertical_bias="0.3" />
+        android:textColor="@android:color/background_dark" />
     <TextView
         android:text="GO!"
         style="@style/gameMassages"
@@ -112,7 +113,7 @@
         android:padding="10dp"
         android:visibility="invisible"
         app:layout_constraintVertical_bias="0.3"
-        />
+        android:textColor="@android:color/white" />
 
 
 </android.support.constraint.ConstraintLayout>
