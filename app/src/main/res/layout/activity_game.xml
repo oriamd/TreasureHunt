@@ -115,5 +115,14 @@
         app:layout_constraintVertical_bias="0.3"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:text="Win"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:onClick="win" />
+
 
 </android.support.constraint.ConstraintLayout>

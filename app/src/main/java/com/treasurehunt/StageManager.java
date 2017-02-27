@@ -122,10 +122,16 @@ public class StageManager {
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean(LVL_UNLOCK_KEY, true);
-                    int totalGold = Integer.parseInt(MainActivity.totalGold);
+                    final int totalGold = Integer.parseInt(MainActivity.totalGold);
                     editor.putString(MainActivity.TOTAL_GOLD_KEY,String.valueOf( totalGold - goldToUnlock));
                     MainActivity.totalGold = String.valueOf(totalGold);
                     editor.commit();
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TextView)activity.findViewById(R.id.textView4)).setText(String.valueOf(totalGold));
+                        }
+                    });
                 }
             });
             switch (numOfLevel){

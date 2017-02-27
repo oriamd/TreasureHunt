@@ -84,12 +84,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-                // ******* FOR DEBUG , NEED TO REMOVE! **********
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString(TOTAL_GOLD_KEY,"5000");
-                editor.commit();
-
                 totalGold = sp.getString(TOTAL_GOLD_KEY,"0");
                 //Log.i(goldTrackTag,"Total Gold : " + totalGold);
                 goldTextView = (TextView) findViewById(R.id.textView4);
