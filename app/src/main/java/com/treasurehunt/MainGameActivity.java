@@ -21,6 +21,9 @@ import android.widget.Chronometer;
 import android.widget.Toast;
 
 import com.example.ori.treasurehunt.R;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mta.sharedutils.AsyncHandler;
 
 public class MainGameActivity extends AppCompatActivity {
@@ -60,6 +63,7 @@ public class MainGameActivity extends AppCompatActivity {
 
 
     Chronometer chromoneter;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,10 @@ public class MainGameActivity extends AppCompatActivity {
 
 
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         //Sounds
         if(mediaPlayer == null){
@@ -233,6 +241,10 @@ public class MainGameActivity extends AppCompatActivity {
         //Log.i(tag,"resume()");
         AsyncHandler.post(mediaPlayer);
 
+        String name = "MainGameActivity";
+        mTracker.setScreenName("Image~" + name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
     }
 
     @Override
@@ -375,4 +387,6 @@ public class MainGameActivity extends AppCompatActivity {
         builder.setMessage("Are you sure you want to Quit? \n you will loss this progress").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
+
+
 }

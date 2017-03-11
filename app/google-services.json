@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "18412680019",
+    "project_id": "treasurehunt-76718350"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18412680019:android:cd92499a40b50c6e",
+        "android_client_info": {
+          "package_name": "com.example.ori.treasurehunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm2TsCh9v1gDSnVpdhzlyOpxEJFDtxTjw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-93521217-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

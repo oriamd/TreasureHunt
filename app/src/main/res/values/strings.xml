@@ -7,8 +7,10 @@
     <string name="version">Version : 0.5</string>
     <string name="developers">Developers : Ori Amuday , Dana Igra</string>
     <string name="dvelopein">Developed in the Introduction to Mobile Computing Course, 2017. Instructors: Dr. Amnon Dekel and Amir Uval.</string>
-    <string name="rights">© 2017 - The Dept. of Software Engineering, Shenkar: Engineering. Design. Art.
-</string>
+    <string name="rights">© 2017 - The Dept. of Software Engineering, Shenkar: Engineering. Design. Art.</string>
     <string name="gamedes">Target : Find The gold with the help of the gold detector \n
                             Listen to the Sounds telling you how close you are.</string>
+    <string name="signin_other_error">There was an issue with sign-in, please try again later."</string>
+    <string name="signin_failure">Unable to sign in.</string>
+
 </resources>
