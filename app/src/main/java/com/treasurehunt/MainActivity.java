@@ -2,12 +2,14 @@ package com.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,8 @@ import com.mta.sharedutils.AsyncHandler;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,View.OnClickListener
+        ,GoogleApiClient.OnConnectionFailedListener{
 
 
     final static String goldTrackTag = "TotalGoldTracker";
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         settingsDialog = new SettingsDialog(this);
+        settingsDialog.setContentView(R.layout.activity_settings);
         yesNoDialog = new YesNoDialog(this);
 
         // Create the Google Api Client with access to the Play Games services
@@ -71,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 // add other APIs and scopes here as needed
                 .build();
-
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        settingsDialog.findViewById(R.id.sign_out_button).setOnClickListener(this);
         stageManager = new StageManager(this);
 
         //Setting sound
@@ -118,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             }
         });
-
         //Log.i(tag,"Created");
 
     }
@@ -200,18 +203,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-
-
+    /**
+     * Starting settings dialog
+     * @param view
+     */
     public void startSettings(View view) {
         soundEffectsUtil.playClickSound();
         settingsDialog.show();
     }
 
+    /**
+     * Starting Tutorial activity
+     * @param view
+     */
     public void startTutorial(View view) {
         Intent intent = new Intent(this, TutorialActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starting About dialog
+     * @param view
+     */
     public void startAbout(View view){
         if(aboutDialog == null){
             aboutDialog = new Dialog(this,R.style.AppTheme_noActionBar);
@@ -222,34 +235,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mGoogleApiClient.disconnect();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
     private static int RC_SIGN_IN = 9001;
-
     private boolean mResolvingConnectionFailure = false;
     private boolean mAutoStartSignInflow = true;
     private boolean mSignInClicked = false;
 
+    /**
+     * On connected to google sign in
+     * @param bundle
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         // show sign-out button, hide the sign-in button
-        settingsDialog.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.achievements).setVisibility(View.VISIBLE);
         settingsDialog.findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+        settingsDialog.findViewById(R.id.leaderboards).setVisibility(View.VISIBLE);
 
-        // (your code here: update UI, enable functionality that depends on sign in, etc)
     }
 
-
+    /**
+     * Failed to connect to google sign in
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (mResolvingConnectionFailure) {
@@ -272,7 +280,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mResolvingConnectionFailure = false;
             }
         }
-        settingsDialog.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        if(connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED && connectionResult.hasResolution()){
+            try {
+                connectionResult.startResolutionForResult(this, RC_SIGN_IN);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i(tag, "" + connectionResult.getErrorCode());
+     //   settingsDialog.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
     }
 
     @Override
@@ -295,33 +311,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // could not be signed in, such as "Unable to sign in."
                 BaseGameUtils.showActivityResultError(this,
                         requestCode, resultCode, R.string.signin_failure);
+                Log.i(tag, "ResultCode : " + resultCode);
             }
         }
     }
 
     // Call when the sign-in button is clicked
-    private void signInClicked() {
+    protected void signInClicked() {
         mSignInClicked = true;
         mGoogleApiClient.connect();
     }
 
     // Call when the sign-out button is clicked
-    private void signOutClicked() {
+    protected void signOutClicked() {
         mSignInClicked = false;
         Games.signOut(mGoogleApiClient);
     }
 
-    public void signClick(View view) {
+
+    /**
+     * Google Sign in onClick
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
-           signInClicked();
+            signInClicked();
         }
         else if (view.getId() == R.id.sign_out_button) {
             signOutClicked();
-
-            // show sign-in button, hide the sign-out button
-            settingsDialog.findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            settingsDialog.findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
-
 }

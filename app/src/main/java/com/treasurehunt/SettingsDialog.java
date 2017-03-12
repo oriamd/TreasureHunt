@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -26,6 +27,7 @@ public class SettingsDialog extends Dialog {
     //should sound play when onClick
     public static boolean CLICK_SOUND_ENABLE = true;
 
+
     SeekBar seekBar;
     Switch soundSwitch;
 
@@ -38,8 +40,6 @@ public class SettingsDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         soundSwitch = (Switch) findViewById(R.id.switch1);
@@ -113,6 +113,8 @@ public class SettingsDialog extends Dialog {
 
 
     }
+
+
 
 
 }

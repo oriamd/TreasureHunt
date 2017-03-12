@@ -85,7 +85,8 @@
         app:srcCompat="@drawable/goldsack"
         android:id="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -193,5 +194,31 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/imageView8"
         app:layout_constraintRight_toRightOf="@+id/imageView8" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="105dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="signClick"
+        android:visibility="visible"
+        app:layout_constraintRight_toLeftOf="@+id/imageButton4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/achievements"
+        android:layout_width="84dp"
+        android:layout_height="33dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorAccent"
+        android:text="Achievements"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@+id/imageButton4"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

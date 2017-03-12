@@ -33,10 +33,14 @@
             android:name="com.treasurehunt.WinActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar.popUp" />
-        <activity android:name="com.treasurehunt.TutorialActivity"></activity>
+        <activity android:name="com.treasurehunt.TutorialActivity">
+
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="cc84bb8e95ec0cb75f7345c5bde3b667661a1b8d" />
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
     </application>
 
 </manifest>
