@@ -17,6 +17,14 @@ repositories {
 
 
 android {
+    signingConfigs {
+        MyAndroid {
+            keyAlias 'MyAndroidKey'
+            keyPassword 'akuo2310'
+            storeFile file('C:/Users/Oriamd/Google Drive/Projects/GoldDetector/android.jks')
+            storePassword 'akuoakuo'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -32,6 +40,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.MyAndroid
+        }
+        debug {
+            signingConfig signingConfigs.MyAndroid
         }
     }
 }

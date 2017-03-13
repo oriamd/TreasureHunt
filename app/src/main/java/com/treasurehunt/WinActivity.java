@@ -9,7 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 public class WinActivity extends AppCompatActivity {

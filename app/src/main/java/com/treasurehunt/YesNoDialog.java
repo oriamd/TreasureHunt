@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 
 /**
  * Created by Ori on 2/27/2017.

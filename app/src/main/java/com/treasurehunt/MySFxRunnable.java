@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.SoundPool;
 import android.util.SparseIntArray;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 import com.mta.sharedutils.Compat.Compat;
 

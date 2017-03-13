@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 
 /**
  * Created by Ori on 2/26/2017.

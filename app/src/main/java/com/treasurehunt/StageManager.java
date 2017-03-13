@@ -1,16 +1,13 @@
 package com.treasurehunt;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 /**

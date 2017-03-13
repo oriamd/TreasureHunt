@@ -2,7 +2,7 @@ package com.treasurehunt;
 
 import android.app.Application;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 

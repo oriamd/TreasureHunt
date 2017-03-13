@@ -20,8 +20,7 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
-import com.example.ori.treasurehunt.R;
-import com.google.android.gms.analytics.GoogleAnalytics;
+import com.ori.amd.treasurehunt.R;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.mta.sharedutils.AsyncHandler;

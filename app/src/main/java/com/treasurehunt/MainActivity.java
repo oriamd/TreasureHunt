@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;

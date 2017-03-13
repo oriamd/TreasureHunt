@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
-import com.example.ori.treasurehunt.R;
+import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 /**
