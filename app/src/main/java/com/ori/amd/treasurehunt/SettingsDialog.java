@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
-import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 /**

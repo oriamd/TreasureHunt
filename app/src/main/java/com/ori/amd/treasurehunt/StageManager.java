@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 /**

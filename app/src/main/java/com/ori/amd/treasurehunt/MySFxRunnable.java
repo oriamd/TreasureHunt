@@ -1,10 +1,9 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.content.Context;
 import android.media.SoundPool;
 import android.util.SparseIntArray;
 
-import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 import com.mta.sharedutils.Compat.Compat;
 

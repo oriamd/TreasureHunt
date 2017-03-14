@@ -1,11 +1,9 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.app.Activity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
-
-import com.ori.amd.treasurehunt.R;
 
 /**
  * Created by Ori on 2/26/2017.

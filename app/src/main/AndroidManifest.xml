@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>v
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -14,9 +13,9 @@
         android:supportsRtl="true"
         android:versionName="0.6"
         android:theme="@style/AppTheme"
-        android:name="com.treasurehunt.AnalyticsApplication">
+        android:name=".AnalyticsApplication">
         <activity
-            android:name="com.treasurehunt.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar">
             <intent-filter>
@@ -26,14 +25,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.treasurehunt.MainGameActivity"
+            android:name=".MainGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar" />
         <activity
-            android:name="com.treasurehunt.WinActivity"
+            android:name=".WinActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.noActionBar.popUp" />
-        <activity android:name="com.treasurehunt.TutorialActivity">
+        <activity android:name=".TutorialActivity">
 
         </activity>
         <meta-data
@@ -41,6 +40,8 @@
             android:value="cc84bb8e95ec0cb75f7345c5bde3b667661a1b8d" />
         <meta-data android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
     </application>
 
 </manifest>

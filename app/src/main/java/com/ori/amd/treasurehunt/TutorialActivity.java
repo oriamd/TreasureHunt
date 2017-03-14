@@ -1,10 +1,8 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-
-import com.ori.amd.treasurehunt.R;
 
 public class TutorialActivity extends AppCompatActivity {
 

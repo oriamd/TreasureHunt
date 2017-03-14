@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +9,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ori.amd.treasurehunt.R;
 import com.mta.sharedutils.AsyncHandler;
 
 public class WinActivity extends AppCompatActivity {
@@ -26,7 +25,7 @@ public class WinActivity extends AppCompatActivity {
 
         //Set Layout Size
         AsyncHandler.removeAllCallbacks();
-        setContentView(R.layout.activity_win);
+        setContentView(com.ori.amd.treasurehunt.R.layout.activity_win);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -34,7 +33,7 @@ public class WinActivity extends AppCompatActivity {
         getWindow().setLayout((int) (width * .8), (int) (height * .8));
 
         if(musicPlayer == null) {
-            musicPlayer = new MyMusicRunnable(this, R.raw.wincheer);
+            musicPlayer = new MyMusicRunnable(this, com.ori.amd.treasurehunt.R.raw.wincheer);
         }
 
         if (soundEffectsUtil == null) {
@@ -43,12 +42,12 @@ public class WinActivity extends AppCompatActivity {
 
         //Setting the gold text
         Intent intent = getIntent();
-        TextView goldText = (TextView)findViewById(R.id.settings);
+        TextView goldText = (TextView)findViewById(com.ori.amd.treasurehunt.R.id.settings);
 
         //We need to add the gold he won to SharedPreferences total gold
         wonGold = intent.getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");
         goldText.setText(wonGold);
-        TextView timeText = (TextView) findViewById(R.id.textView16);
+        TextView timeText = (TextView) findViewById(com.ori.amd.treasurehunt.R.id.textView16);
         timeText.setText(intent.getExtras().getString(MainGameActivity.TIME_EXTRA,"00"));
         AsyncHandler.post(new Runnable() {
             @Override

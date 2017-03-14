@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,8 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.ori.amd.treasurehunt.R;
 
 /**
  * Created by Ori on 2/27/2017.

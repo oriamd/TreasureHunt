@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.content.Context;
 

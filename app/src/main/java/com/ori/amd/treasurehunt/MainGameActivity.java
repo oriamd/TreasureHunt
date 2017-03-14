@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.Toast;
 
-import com.ori.amd.treasurehunt.R;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.mta.sharedutils.AsyncHandler;

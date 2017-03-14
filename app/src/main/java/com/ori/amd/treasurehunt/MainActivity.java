@@ -1,4 +1,4 @@
-package com.treasurehunt;
+package com.ori.amd.treasurehunt;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
-import com.ori.amd.treasurehunt.R;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
