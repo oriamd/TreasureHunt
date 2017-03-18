@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_id">18412680019</string>
+    <string name="my_unlock_level_two_id">CggI0-bsy0QQAhAA</string>
+    <string name="my_unlock_level_three_id"> CggI0-bsy0QQAhAC</string>
+    <string name="my_full_pockets_id">CggI0-bsy0QQAhAD</string>
+    <string name="my_bank_account_id">CggI0-bsy0QQAhAE</string>
+    <string name="my_fast_as_lightning_id"> CggI0-bsy0QQAhAF</string>
+    <string name="gold_leadeboard">CggI0-bsy0QQAhAB</string>
 
 </resources>

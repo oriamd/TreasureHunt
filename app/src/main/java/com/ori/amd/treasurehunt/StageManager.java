@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.games.Game;
+import com.google.android.gms.games.Games;
 import com.mta.sharedutils.AsyncHandler;
 
 /**
@@ -20,9 +22,9 @@ public class StageManager {
     ImageView lvlTwoCover;
     ImageView lvlThreeCover;
 
-    Activity activity;
+    MainActivity activity;
 
-    public StageManager(final Activity activity){
+    public StageManager(final MainActivity activity){
 
         this.activity = activity;
 
@@ -132,10 +134,16 @@ public class StageManager {
             });
             switch (numOfLevel){
                 case 2:
-                    ((ImageView)activity.findViewById(R.id.imageView7)).setVisibility(View.INVISIBLE);
+                    ((View)activity.findViewById(R.id.imageView7)).setVisibility(View.INVISIBLE);
+                    if(activity.googleApiClientHelper.mGoogleApiClient.isConnected()) {
+                        Games.Achievements.unlock(activity.googleApiClientHelper.mGoogleApiClient, activity.getString(R.string.my_unlock_level_two_id));
+                    }
                     break;
                 case 3:
-                    ((ImageView)activity.findViewById(R.id.imageView8)).setVisibility(View.INVISIBLE);
+                    ((View)activity.findViewById(R.id.imageView8)).setVisibility(View.INVISIBLE);
+                    if(activity.googleApiClientHelper.mGoogleApiClient.isConnected()) {
+                        Games.Achievements.unlock(activity.googleApiClientHelper.mGoogleApiClient, activity.getString(R.string.my_unlock_level_three_id));
+                    }
                     break;
             }
 
