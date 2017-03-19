@@ -13,8 +13,8 @@ import com.mta.sharedutils.AsyncHandler;
 
 /**
  * Created by Ori on 1/17/2017.
+ * Game setting dialog
  */
-
 
 public class SettingsDialog extends Dialog {
 

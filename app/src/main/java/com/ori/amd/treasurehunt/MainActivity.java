@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
-     * Level Button Event trigger this
+     * Level Button Event trigger this and passing the startLvl function Level object
      * @param view
      */
     public void startLvl(View view) {
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         googleApiClientHelper.onConnectionFailed(connectionResult);
-        Log.i(tag, "ConnectctionResukt.ErrorCode : " + connectionResult.getErrorCode());
+        //Log.i(tag, "ConnectctionResukt.ErrorCode : " + connectionResult.getErrorCode());
         findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
     }
 
@@ -296,7 +296,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         googleApiClientHelper.mGoogleApiClient.connect();
     }
 
-    // Call when the sign-out button is clicked
+    /**
+     * Call when the sign-out button is clicked
+     */
     protected void signOutClicked() {
         googleApiClientHelper.mSignInClicked = false;
         googleApiClientHelper.mAutoStartSignInflow = false;

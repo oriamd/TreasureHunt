@@ -14,6 +14,10 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 
 /**
  * Created by Oriamd on 3/15/2017.
+ *
+ * Google api Client Helper class.
+ * Implement default ConnectionCalBacks and On connectionFailedListener
+ * or can set other
  */
 
 public class GoogleApiClientHelper implements GoogleApiClient.ConnectionCallbacks
@@ -47,6 +51,11 @@ public class GoogleApiClientHelper implements GoogleApiClient.ConnectionCallback
 
     }
 
+    /**
+     * setting only ConnectionCallBack listener
+     * @param activity
+     * @param connectionCallbacksListener
+     */
     public GoogleApiClientHelper(Activity activity,
                                  GoogleApiClient.ConnectionCallbacks connectionCallbacksListener){
         this.activity = activity;
@@ -61,6 +70,10 @@ public class GoogleApiClientHelper implements GoogleApiClient.ConnectionCallback
 
     }
 
+    /**
+     * Default C'tor
+     * @param activity
+     */
     public GoogleApiClientHelper(Activity activity){
         this.activity = activity;
 

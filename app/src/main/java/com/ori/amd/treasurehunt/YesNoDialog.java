@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 /**
  * Created by Ori on 2/27/2017.
+ * Displaying simple Yes or No Dialog
  */
 
 public class YesNoDialog extends Dialog {

@@ -267,6 +267,9 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * starting location with permission checking
+     */
     void startLocation(){
 
         // first check for permissions
@@ -287,8 +290,8 @@ public class MainGameActivity extends AppCompatActivity {
 
     }
 
-    /*
-        This will set the target in a rand location inside the radios
+    /**
+     *   This will set the target in a rand location inside the radios
      */
     private void setRandLocation(Location location , double radios){
 
@@ -327,8 +330,8 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
 
-    /*
-        Player won/reached the target
+    /**
+     *   Player won/reached the target
      */
     public void win(View view) {
         //Log.i(locationTag,"Player Won gold :"+ prizeAmount.toString());
@@ -343,8 +346,9 @@ public class MainGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-        Changing the frequently which the been sound is being played
+    /**
+     * Changing the frequently which the been sound is being played
+     * @param distance distance to target
      */
     private void changeInterval(double distance ){
         frequency = (((int) (distance / INTERVAL_METER)) + 1) * INTERVAL_MS;
@@ -361,8 +365,9 @@ public class MainGameActivity extends AppCompatActivity {
      quitGame(null);
     }
 
-    /*
-        Quiting the game.
+    /**
+     * Quiting the game. Asking if the user is sure
+     * @param view
      */
     public void quitGame(View view) {
         soundEffectsUtil.playClickSound();

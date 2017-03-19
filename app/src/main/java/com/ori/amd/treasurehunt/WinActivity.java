@@ -15,6 +15,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.mta.sharedutils.AsyncHandler;
 
+/***
+ * Win activity stats when the player reaches the target and will gold.
+ * Will update Shared preferences , unlock google achievements and update leaderboard
+ */
 public class WinActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
 
     static final String tag = "Win_Activity_Log";
@@ -118,6 +122,10 @@ public class WinActivity extends AppCompatActivity implements GoogleApiClient.Co
 
     }
 
+    /**
+     * when connected to google submit score to leaderboard and unlock achievements
+     * @param bundle
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         googleApiClientHelper.onConnected(bundle);

@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/***
+ * The game Tutorial
+ */
 public class TutorialActivity extends AppCompatActivity {
 
     private MySFxRunnable soundEffectsUtil;
@@ -19,10 +22,18 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * playing sound who plays when player getting far from target
+     * @param view
+     */
     public void playFarSound(View view) {
         soundEffectsUtil.play(R.raw.detectbeep);
     }
 
+    /**
+     * playing sound who plays when player getting close from target
+     * @param view
+     */
     public void playCloseSound(View view) {
         soundEffectsUtil.play(R.raw.errorbuzz);
     }

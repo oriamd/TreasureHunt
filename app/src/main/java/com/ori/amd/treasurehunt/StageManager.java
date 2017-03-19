@@ -13,6 +13,9 @@ import com.mta.sharedutils.AsyncHandler;
 
 /**
  * Created by Ori on 2/26/2017.
+ *
+ * Manages game stages.
+ * See if Lvl is unlocked in Shared preferences, unlock it and handle the stack button
  */
 
 public class StageManager {
@@ -83,6 +86,9 @@ public class StageManager {
         return null;
     }
 
+    /***
+     * The level itself, has all the details about the Level
+     */
     class Level{
         public  int numOfLevel;
         //Amount of gold prize
