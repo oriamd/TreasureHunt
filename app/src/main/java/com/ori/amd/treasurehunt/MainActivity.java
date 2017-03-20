@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         googleApiClientHelper = new GoogleApiClientHelper(this,this,this);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.achievements).setOnClickListener(this);
+        View view = findViewById(R.id.sign_in_button);
+        view.setOnClickListener(this);
+        view = findViewById(R.id.achievements);
+        view.setOnClickListener(this);
+        view.setVisibility(View.GONE);
         settingsDialog.findViewById(R.id.sign_out_button).setOnClickListener(this);
         stageManager = new StageManager(this);
 

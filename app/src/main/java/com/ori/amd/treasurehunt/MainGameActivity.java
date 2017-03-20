@@ -69,6 +69,7 @@ public class MainGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+
         //Log.i(tag,"Create()");
         //storing extras
         prizeAmount = getIntent().getExtras().getString(MainActivity.PRIZE_AMOUNT,"0");

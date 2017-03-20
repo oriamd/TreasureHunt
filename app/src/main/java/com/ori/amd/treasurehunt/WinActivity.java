@@ -35,6 +35,7 @@ public class WinActivity extends AppCompatActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //Set Layout Size
         AsyncHandler.removeAllCallbacks();
         setContentView(com.ori.amd.treasurehunt.R.layout.activity_win);
